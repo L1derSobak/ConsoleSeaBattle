@@ -1,120 +1,41 @@
 #include "Menu.h"
 #include <iostream>
-Menu::Menu() : MenuName("Menu"), 
-				TextSize(12),
-				Padding(2),
-				WindowPos(DefaultPosE)
+#include <exception>
+
+Menu::Menu()
 {
-	MenuPoints.push_back({ "Start", 0 });
-	MenuPoints.push_back({ "Options", 1 });
-	MenuPoints.push_back({ "Exit", 2 });
-	WindowSize = DefaultWindowSize;
+	CMenuParams.MenuName = "Menu";
+	CMenuParams.Padding = 2;
+	CMenuParams.TextSize = 16;
+	CMenuParams.IsNumerated = false;
+	CMenuParams.Positions = 3;
+	CMenuParams.Params = { {"Start",0},{"settings",1},{"Exit",2} };
+	CMenuParams.WindowPos = DefaultPos;
+	CMenuParams.WindowSize = { MinWinSizeX,MinWinSizeY };
 }
-Menu::Menu(std::list<std::string> Params) : MenuName("Menu"),
-											TextSize(12),
-											Padding(2),
-											WindowPos(DefaultPosE)
+Menu::Menu(std::list<std::string> Params, std::string MenuName, bool isNumirated, unsigned short const TextSize, unsigned short const Padding, unsigned short const Positions, BT::Vector2<unsigned int> WindowSize, BT::Vector2<unsigned int> WindowPos)
 {
-	WindowSize = DefaultWindowSize;
-	unsigned short Pos = 0;
-	for (auto item : Params)
-	{
-		MenuPoints.push_back({ item, Pos });
-		Pos++;
-	}
+	CMenuParams.MenuName = MenuName;
+	CMenuParams.Padding = Padding;
+	CMenuParams.TextSize = TextSize;
+	CMenuParams.IsNumerated = isNumirated;
+	CMenuParams.Params = StringToMenuPoint(Params);
+	CMenuParams.WindowPos = WindowPos;
+	CMenuParams.WindowSize = WindowSize;
 }
-Menu::Menu(std::list<std::string> Params, unsigned short const TextSize) : MenuName("Menu"),
-																			TextSize(TextSize),
-																			Padding(2),
-																			WindowPos(DefaultPosE)
+Menu::Menu(std::list<MenuPoint> Params, std::string MenuName, bool isNumirated, unsigned short const TextSize, unsigned short const Padding, unsigned short const Positions, BT::Vector2<unsigned int> WindowSize, BT::Vector2<unsigned int>WindowPos)
 {
-	WindowSize = DefaultWindowSize;
-	unsigned short Pos = 0;
-	for (auto item : Params)
-	{
-		MenuPoints.push_back({ item, Pos });
-		Pos++;
-	}
+	CMenuParams.MenuName = MenuName;
+	CMenuParams.Padding = Padding;
+	CMenuParams.TextSize = TextSize;
+	CMenuParams.IsNumerated = isNumirated;
+	CMenuParams.Params = Params;
+	CMenuParams.WindowPos = WindowPos;
+	CMenuParams.WindowSize = WindowSize;
 }
-Menu::Menu(std::list<std::string> Params, unsigned short const TextSize, unsigned short const Padding) : MenuName("Menu"),
-																											TextSize(TextSize),
-																											Padding(Padding),
-																											WindowPos(DefaultPosE)
+Menu::Menu(MenuParams Params) 
 {
-	WindowSize = DefaultWindowSize;
-	unsigned short Pos = 0;
-	for (auto item : Params)
-	{
-		MenuPoints.push_back({ item, Pos });
-		Pos++;
-	}
-}
-Menu::Menu(std::list<std::string> Params, unsigned short const TextSize, unsigned short const Padding, BT::Vector2<unsigned int> WindowSize) : MenuName("Menu"),
-																																				TextSize(TextSize),
-																																				Padding(Padding),
-																																				WindowPos(DefaultPosE)
-{
-	this->WindowSize=WindowSize;
-	unsigned short Pos = 0;
-	for (auto item : Params)
-	{
-		MenuPoints.push_back({ item, Pos });
-		Pos++;
-	}
-}
-Menu::Menu(std::list<std::string> Params, unsigned short const TextSize, unsigned short const Padding, BT::Vector2<unsigned int> WindowSize, BT::Vector2<unsigned int> WindowPos) : MenuName("Menu"),
-																																													TextSize(TextSize),
-																																													Padding(Padding),
-																																													WindowPos(WindowPos)
-{
-	this->WindowSize = WindowSize;
-}
-Menu::Menu(std::list<MenuPoint> Params) : MenuName("Menu"), 
-											TextSize(12),
-											Padding(2),
-											MenuPoints(Params),
-											WindowPos(DefaultPosE)
-{
-	WindowSize = DefaultWindowSize;
-}
-Menu::Menu(std::list<MenuPoint> Params, unsigned short const TextSize) : MenuName("Menu"),
-																			TextSize(TextSize),
-																			Padding(2), MenuPoints(Params), 
-																			WindowPos(DefaultPosE)
-{
-	WindowSize = DefaultWindowSize;
-}
-Menu::Menu(std::list<MenuPoint> Params, unsigned short const TextSize, unsigned short const Padding) : MenuName("Menu"),
-																										TextSize(TextSize),
-																										Padding(Padding),
-																										MenuPoints(Params), 
-																										WindowPos(DefaultPosE)
-{
-	WindowSize = DefaultWindowSize;
-}
-Menu::Menu(std::list<MenuPoint> Params, unsigned short const TextSize, unsigned short const Padding, BT::Vector2<unsigned int> WindowSize) : MenuName("Menu"),
-																																				TextSize(TextSize),
-																																				Padding(Padding),
-																																				MenuPoints(Params),
-																																				WindowPos(DefaultPosE)
-{
-	this->WindowSize = WindowSize;
-}
-Menu::Menu(std::list<MenuPoint> Params, unsigned short const TextSize, unsigned short const Padding, BT::Vector2<unsigned int> WindowSize, BT::Vector2<unsigned int>WindowPos) : MenuName("Menu"),
-																																													TextSize(TextSize),
-																																													Padding(Padding),
-																																													MenuPoints(Params),
-																																													WindowPos(WindowPos)
-{
-	this->WindowSize = WindowSize;
-}
-Menu::Menu(MenuParams Params) : MenuName(Params.MenuName), 
-								TextSize(Params.TextSize),
-								Padding(Params.Padding),
-								MenuPoints(Params.Params),
-								WindowPos(Params.WindowPos)
-{
-	WindowSize = Params.WindowSize;
+	CMenuParams = Params;
 }
 Menu::~Menu() { std::cout << "\t\t\t\tDestroyed"; }
 
@@ -127,56 +48,39 @@ std::list<MenuPoint> Menu::StringToMenuPoint(std::list<std::string> Params)
 	return Return;
 }
 
-std::list<std::string> Menu::GetChoisesC()
+std::list<MenuPoint> Menu::GetChoises()
 {
-	std::list<std::string> Params;
-	for (auto item : MenuPoints)
-		Params.push_back(item.Name);
-	return Params;
-}
-
-std::list<MenuPoint> Menu::GetChoisesM()
-{
-	return MenuPoints;
-}
-
-void Menu::SetValue(std::list<std::string> Params)
-{
-	MenuPoints = StringToMenuPoint(Params);
-	//for(size_t i = Params.size()<MenuPoints.size() ? MenuPoints.size() : Params.size(); i)
+	return CMenuParams.Params;
 }
 
 void Menu::SetValue(std::list<MenuPoint> Params)
 {
-	MenuPoints = Params;
+	CMenuParams.Params = Params;
 }
 
 void Menu::SetMenuParams(MenuParams MenuParameters)
 {
-	MenuName = MenuParameters.MenuName;
-	TextSize = MenuParameters.TextSize;
-	Padding = MenuParameters.Padding;
-	MenuPoints = MenuParameters.Params;
-	WindowSize = MenuParameters.WindowSize;
-	WindowPos = MenuParameters.WindowPos;
+	CMenuParams = MenuParameters;
 }
 
 void Menu::Draw()
 {
-	DebuggInfo();
+	CF::DrawTable(CMenuParams.WindowSize.Element1, CMenuParams.WindowSize.Element2);
+	
+	//DebugInfo();
 }
 
 void Menu::SetWindowPosition(unsigned int X, unsigned int Y)
 {
-	MoveWindow(hWindowConsole,X, Y,WindowSize.Element1, WindowSize.Element2, TRUE);
+	MoveWindow(hWindowConsole,X, Y,CMenuParams.WindowSize.Element1, CMenuParams.WindowSize.Element2, TRUE);
 }
 
 void Menu::SetWindowSize(unsigned int Width, unsigned int Height)
 {
-	MoveWindow(hWindowConsole, WindowPos.Element1, WindowPos.Element2, Width, Height, TRUE);
+	MoveWindow(hWindowConsole, CMenuParams.WindowPos.Element1, CMenuParams.WindowPos.Element2, Width, Height, TRUE);
 }
 
-void Menu::DebuggInfo()
+void Menu::DebugInfo()
 {/*
 	std::cout << "     \n\n       n\tn\ba";
 	HWND Console = GetConsoleWindow();
@@ -202,42 +106,40 @@ void Menu::DebuggInfo()
 	ReleaseDC(Console, Hdc);
 	std::cin.ignore();
 	*/
-	unsigned int LastSymPos = static_cast<unsigned int>(((WindowSize.Element1 - 1) / 8) - 5);
-	std::cout << "+";
-	for (size_t i = 1; i < ((WindowSize.Element1 - 1)/8)-5; i++)
-		std::cout << "-";
-	std::cout << "+";
+	CF::DrawTable(CMenuParams.WindowSize.Element1, CMenuParams.WindowSize.Element2);
+
 	//8(ширина)x16(высота)
 	//680x480
 	//680/8=85
 	//480/16=30
-	std::cout << "|\t";
-	CF::gotoxy(((WindowSize.Element1/8-11)/2)-1, 1);
-	std::cout << "DEBUG MODE"; CF::gotoxy(LastSymPos, 1); std::cout << "|\n";// << std::endl;
-	std::cout << "|\tMenu name: " << MenuName; CF::gotoxy(LastSymPos, 2); std::cout << "|\n";// << std::endl;
-	std::cout << "|\tText Size: " << TextSize;  CF::gotoxy(LastSymPos, 3); std::cout << "|\n";// << std::endl;
-	std::cout << "|\tPadding: " << Padding; CF::gotoxy(LastSymPos, 4); std::cout << "|\n";// << std::endl;
-	std::cout << "|\tChoises:"; CF::gotoxy(LastSymPos, 5); std::cout << "|\n";// << std::endl;
-	short p = 6;
-	for (auto it : MenuPoints)
-	{
-		std::cout << "|\t\t" << it.Name << " is " << it.Position; CF::gotoxy(LastSymPos, p++); std::cout << "|\n";// << std::endl;
-	}
-	std::cout << "|"; CF::gotoxy(LastSymPos, 9); std::cout << "|";
-	std::cout << "|";
-	CF::gotoxy(((WindowSize.Element1 / 8 - 23) / 2) - 1, 9);
-	std::cout << "Window and Screen Info"; CF::gotoxy(LastSymPos, 10); std::cout << "|";
-	std::cout << "|"; CF::gotoxy(LastSymPos, 11); std::cout << "|";
-	std::cout << "|\tWidth: " << SWidth << " | " << "Height: " << SHeight; CF::gotoxy(LastSymPos, 12); std::cout << "|\n";// << std::endl;
-	std::cout << "|\tWindow size: \n\tX: " << WindowSize.Element1 << "\tY: " << WindowSize.Element2; CF::gotoxy(LastSymPos, 13); std::cout << "|\n";// << std::endl;
-	std::cout << "|\tWindow Position: \n\tX: " << WindowPos.Element1 << "\tY: " << WindowPos.Element2; CF::gotoxy(LastSymPos, 14); std::cout << "|\n";// << std::endl;
-
-	std::cout << "+";
-	for (size_t i = 1; i < ((WindowSize.Element1 - 1) / 8) - 5; i++)
-		std::cout << "-";
-	std::cout << "+";
-	SetWindowSize(WindowSize.Element1, WindowSize.Element2);
-	SetWindowPosition(WindowPos.Element1, WindowPos.Element2);
 	
+	CF::gotoxy(((CMenuParams.WindowSize.Element1/8-11)/2)-1, 1);
+	std::cout << "DEBUG MODE" << std::endl;// CF::gotoxy(LastSymPosX, 1); std::cout << "|\n";// << std::endl;
+	std::cout << "\tMenu name: " << CMenuParams.MenuName << std::endl;// CF::gotoxy(LastSymPosX, 2); std::cout << "|\n";// << std::endl;
+	std::cout << "\tText Size: " << CMenuParams.TextSize << std::endl;//  CF::gotoxy(LastSymPosX, 3); std::cout << "|\n";// << std::endl;
+	std::cout << "\tPadding: " << CMenuParams.Padding << std::endl;// CF::gotoxy(LastSymPosX, 4); std::cout << "|\n";// << std::endl;
+	std::cout << "\tIs numirated: " << CMenuParams.IsNumerated << std::endl;
+	std::cout << "\tThere is "<<CMenuParams.Positions<<" Choises:" << std::endl; //CF::gotoxy(LastSymPosX, 5); std::cout << " | \n";// << std::endl;
+	for (auto it : CMenuParams.Params)
+	{
+		std::cout << "\t\t" << it.Name << " is " << it.Position << std::endl;// CF::gotoxy(LastSymPosX, p++); std::cout << "|\n";// << std::endl;
+	}
+	CF::gotoxy(((CMenuParams.WindowSize.Element1 / 8 - 23) / 2) - 1, 11);
+	std::cout << "Window and Screen Info\n" << std::endl;// CF::gotoxy(LastSymPosX, 10); std::cout << "|";
+	std::cout << "\tWidth: " << SWidth << " | " << "Height: " << SHeight << std::endl;// CF::gotoxy(LastSymPosX, 12); std::cout << "|\n";// << std::endl;
+	std::cout << "\tWindow size: \n\tX: " << CMenuParams.WindowSize.Element1 << "\tY: " << CMenuParams.WindowSize.Element2 << std::endl;// CF::gotoxy(LastSymPosX, 13); std::cout << "|\n";// << std::endl;
+	std::cout << "\tWindow Position: \n\tX: " << CMenuParams.WindowPos.Element1 << "\tY: " << CMenuParams.WindowPos.Element2 << std::endl;// CF::gotoxy(LastSymPosX, 14); std::cout << "|\n";// << std::endl;
+	try {
+		SetWindowSize(CMenuParams.WindowSize.Element1, CMenuParams.WindowSize.Element2);
+		SetWindowPosition(CMenuParams.WindowPos.Element1, CMenuParams.WindowPos.Element2);
+	}
+	catch (std::exception e) { throw e.what(); }
+	
+	
+}
+
+bool Menu::IsCorrect() const
+{
+	return CMenuParams.MenuName!="" && !CMenuParams.Params.empty() && CMenuParams.Positions>0 && CMenuParams.WindowSize.Element1>0 && CMenuParams.WindowSize.Element2>0;
 }
 

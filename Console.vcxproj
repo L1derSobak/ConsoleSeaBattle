@@ -142,11 +142,13 @@
     <ClCompile Include="BaseTypes.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CoreFunctions.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseTypes.h" />
     <ClInclude Include="CoreFunctions.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

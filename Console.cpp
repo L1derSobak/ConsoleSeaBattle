@@ -8,7 +8,7 @@ int main()
 	//std::cout << "Bonjour!";
 	
 	Menu menu;
-	menu.Draw();	
+	menu.Draw();
 	std::cin.get();
 	
 }
