@@ -1,14 +1,53 @@
 ﻿#include "Menu.h"
 #include <iostream>
 #include <Windows.h>
+#include <conio.h>
 #include "CoreFunctions.h"
+#include "BaseTypes.h"
+
 int main()
 {
 	//CF::gotoxy(2, 5);
 	//std::cout << "Bonjour!";
 	
+	/*int i_input;
+	for (size_t i = 0; i < 20; i++)
+	{
+		i_input = _getch();
+		std::cout << i_input << std::endl;
+		if (i_input == BT::Input::ArrowUp) std::cout << "pressed arrow Up\n";
+	}
+	*/
+	
 	Menu menu;
-	menu.Draw();
+	unsigned int pos = 0;
+	int temp = pos;
+	menu.Draw(pos);
+	unsigned short choice = menu.GetChoice();
+	while (choice != BT::Input::Esc)
+	{
+		switch (choice)
+		{
+		case BT::Input::ArrowUp:
+			temp--;
+			pos = temp < 0 ? 0 : temp;
+			menu.Draw(pos);
+			break;
+		case BT::Input::ArrowDown:
+			temp++;
+			pos = temp > menu.GetChoises().size() ? menu.GetChoises().size() : temp;
+			menu.Draw(pos);
+			break;
+		case BT::Input::Enter:
+			if (pos == 2)
+				exit(0);
+			break;
+		}
+		choice = menu.GetChoice();
+	}
+	std::cout << "End!";
+	exit(0);
+	
 	std::cin.get();
 	
 }

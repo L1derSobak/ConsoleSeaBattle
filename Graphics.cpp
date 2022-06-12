@@ -8,6 +8,7 @@ void CF::DrawTable(unsigned const int& X, unsigned const int& Y)
 	unsigned int LastSymPosX = static_cast<unsigned int>(floor(((X - 1) / 8) - 5));
 	unsigned int LastSymPosY = static_cast<unsigned int>(floor(((Y - 1) / 16) - 3));
 	//Draw border
+	CF::gotoxy(0, 0);
 	std::cout << "+";
 	for (size_t i = 1; i < LastSymPosX; i++)
 		std::cout << "-";
