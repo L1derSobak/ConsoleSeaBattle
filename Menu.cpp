@@ -181,4 +181,3 @@ bool Menu::IsCorrect() const
 {
 	return CMenuParams.MenuName!="" && !CMenuParams.Params.empty() && CMenuParams.Positions>0 && CMenuParams.WindowSize.Element1>0 && CMenuParams.WindowSize.Element2>0;
 }
-
