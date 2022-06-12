@@ -66,7 +66,46 @@ void Menu::SetMenuParams(MenuParams MenuParameters)
 void Menu::Draw()
 {
 	CF::DrawTable(CMenuParams.WindowSize.Element1, CMenuParams.WindowSize.Element2);
-	
+	//Надо попробовать соотношение 3:2х+1
+	//Инициилизация необходимых данных
+	BT::Vector2<unsigned int>SymbolNums;
+	SymbolNums.Element1 = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Element1 - 1) / 8) - 5));
+	SymbolNums.Element2 = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Element2 - 1) / 16) - 3));
+	unsigned int MenuNameSymbols = floor(3 * (SymbolNums.Element2 / (4 + 2 * CMenuParams.Positions)));
+	unsigned int ParamSymbols = floor((1 + 2 * CMenuParams.Positions) * (SymbolNums.Element2 / (4 + 2 * CMenuParams.Positions)));
+	unsigned int ParamSot = floor(2 * CMenuParams.Positions + 1);
+	//Отрисовываем позиции
+	CF::gotoxy(((SymbolNums.Element1 - 2) - CMenuParams.MenuName.size()) / 2, 2 * (MenuNameSymbols / 3));
+	std::cout << CMenuParams.MenuName;
+
+	/*
+		+------+
+		|      |
+		+------+
+		|      |
+		|      |
+		|      |
+		+------+
+
+		((ParamsSymbol/CMenuParams.Positions)/3)*(2*(it.posiion+1)) //Технически, это должно правильно дать позиции пунктов т.к
+		((Высота общего кол-во символов дляпунктов/Кол-во пунктов)/3)*(2*(позиция пункта+1))
+
+	*/
+	for (auto it : CMenuParams.Params)
+	{
+		if (!CMenuParams.IsNumerated == true)
+		{
+			//CF::gotoxy(((SymbolNums.Element1 - 2) - it.Name.size()) / 2, MenuNameSymbols + (ParamSymbols / ParamSot) * ((it.Position + 1) * 2));
+			CF::gotoxy(((SymbolNums.Element1 - 2) - it.Name.size()) / 2, MenuNameSymbols+(floor((ParamSymbols/CMenuParams.Positions)/3)*2*(2*(it.Position+1))));
+			std::cout << it.Name;
+		}
+		else
+		{
+			//CF::gotoxy(((SymbolNums.Element1 - 2) - (it.Name.size()+3)) / 2, MenuNameSymbols + (ParamSymbols / ParamSot) * ((it.Position + 1) * 2));
+			CF::gotoxy(((SymbolNums.Element1 - 2) - (it.Name.size()+3)) / 2, MenuNameSymbols + (floor((ParamSymbols / CMenuParams.Positions) / 3) * 2 * (2 * (it.Position + 1))));
+			std::cout << it.Position + 1 << ". " << it.Name;
+		}
+	}
 	//DebugInfo();
 }
 
