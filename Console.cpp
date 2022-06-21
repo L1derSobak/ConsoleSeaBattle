@@ -1,55 +1,71 @@
-﻿#include "Menu.h"
-#include <iostream>
+﻿#include <iostream>
 #include <Windows.h>
-#include <conio.h>
+#include "System.h"
 #include "CoreFunctions.h"
-#include "BaseTypes.h"
+#include "Graphics.h"
+
+int width = 120;
+int height = 60;
+void SetWindow(int Width, int Height)
+{
+	_COORD coord = { Width, Height };
+	//coord.X = Width;
+	//coord.Y = Height;
+	_SMALL_RECT Rect;
+	Rect.Top = 0;
+	Rect.Left = 0;
+	Rect.Bottom = Height - 1;
+	Rect.Right = Width - 1;
+	HANDLE Handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleScreenBufferSize(Handle, coord);
+	SetConsoleWindowInfo(Handle, TRUE, &Rect);
+}
+
+wchar_t* DrawEdge(wchar_t* buffer)
+{
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			if (i == 0 || i == width - 1 || j == 0 || j == height - 1)
+				buffer[i + j * width] = '+';
+			else
+				buffer[i + j * width] = ' ';
+			//screen[i + j * width] = pixel;
+		}
+	}
+	buffer[width * height] = '\0';
+	return buffer;
+}
+
+wchar_t* AddString(wchar_t* buffer,const wchar_t* string, uint16_t x, uint16_t y)
+{
+	if (x > width || y > height || buffer == nullptr) return nullptr;
+	
+	uint16_t  sympos = 0;
+	for (size_t i = x; i < x + wcslen(string); i++)
+	{
+		buffer[i + y * width] = string[sympos];
+		sympos++;
+	}
+	buffer[width * height] = '\0';
+	return buffer;
+}
 
 int main()
 {
-	//CF::gotoxy(2, 5);
-	//std::cout << "Bonjour!";
-	
-	/*int i_input;
-	for (size_t i = 0; i < 20; i++)
+	//screen = FullBuffer(screen);
+	//Sleep(500);
+	//screen = DrawEdge(screen);
+	//WriteConsoleOutputCharacter(hConsole, screen, width * height, { 0, 0 }, &dwBytesWritten);
+	System sys;
+	//wchar_t* scrn = new wchar_t[wcslen(sys.GetScreenBuffer())];
+	sys.SetScreenBuffer(CF::DrawTable(sys.GetScreenBuffer(), 10, 10, 32, 32, sys));
+	sys.SetScreenBuffer(CF::DrawTable(sys.GetScreenBuffer(), 0, 0, 60, 60, sys));
+	for (size_t i = 0; i < 10000; i++)
 	{
-		i_input = _getch();
-		std::cout << i_input << std::endl;
-		if (i_input == BT::Input::ArrowUp) std::cout << "pressed arrow Up\n";
+		CF::DrawBuffer(sys.GetScreenBuffer(), sys.GetConsoleBufferHandle());
 	}
-	*/
-	
-	Menu menu;
-	unsigned int pos = 0;
-	int temp = pos;
-	menu.Draw(pos);
-	unsigned short choice = menu.GetChoice();
-	while (choice != BT::Input::Esc)
-	{
-		switch (choice)
-		{
-		case BT::Input::ArrowUp:
-			temp--;
-			pos = temp < 0 ? 0 : temp;
-			menu.Draw(pos);
-			break;
-		case BT::Input::ArrowDown:
-			temp++;
-			pos = temp > menu.GetChoises().size() ? menu.GetChoises().size() : temp;
-			menu.Draw(pos);
-			break;
-		case BT::Input::Enter:
-			if (pos == 2)
-				exit(0);
-			break;
-		}
-		choice = menu.GetChoice();
-	}
-	std::cout << "End!";
-	exit(0);
-	
-	std::cin.get();
-	
 }
 
 

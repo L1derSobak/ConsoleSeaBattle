@@ -3,26 +3,25 @@
 #include <iostream>
 #include "CoreFunctions.h"
 
-void CF::DrawTable(unsigned const int& X, unsigned const int& Y)
+wchar_t* CF::DrawTable(wchar_t* buffer, const uint16_t& XS, const uint16_t& YS, const uint16_t& XE, const uint16_t& YE, System& sys)
 {
-	unsigned int LastSymPosX = static_cast<unsigned int>(floor(((X - 1) / 8) - 5));
-	unsigned int LastSymPosY = static_cast<unsigned int>(floor(((Y - 1) / 16) - 3));
-	//Draw border
-	CF::gotoxy(0, 0);
-	std::cout << "+";
-	for (size_t i = 1; i < LastSymPosX; i++)
-		std::cout << "-";
-	std::cout << "+";
-	for (size_t i = 1; i < LastSymPosY; i++)
+	for (uint16_t i = 0; i < sys.GetWindowSize().X; i++)
 	{
-		CF::gotoxy(0, i);
-		std::cout << "|";
-		CF::gotoxy(LastSymPosX, i);
-		std::cout << "|";
+		for (uint16_t j = 0; j < sys.GetWindowSize().Y; j++)
+		{
+			if ((i == XS && j>=YS && j<=YE) || (i ==XE && j>=YS && j<=YE) || (i>=XS && i <= XE && (j == YS || j == YE)))//|| i == XE || j == YS || j == YE)
+				buffer[i + j * sys.GetWindowSize().X] = '+';
+			//else
+				//buffer[i + j * sys.GetWindowSize().X] = ' ';
+			//screen[i + j * width] = pixel;
+		}
 	}
-	CF::gotoxy(0, LastSymPosY);
-	std::cout << "+";
-	for (size_t i = 1; i < LastSymPosX; i++)
-		std::cout << "-";
-	std::cout << "+";
+	buffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
+	return buffer;
+}
+
+void CF::DrawBuffer(wchar_t* buffer, HANDLE ScreenBuffer)
+{
+	DWORD dwBytesWritten = 0;
+	WriteConsoleOutputCharacter(ScreenBuffer, buffer, wcslen(buffer), { 0, 0 }, &dwBytesWritten);
 }

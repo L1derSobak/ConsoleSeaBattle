@@ -6,8 +6,8 @@ namespace BT {
 	template<typename Type>
 	struct Vector2
 	{
-		Type Element1;
-		Type Element2;
+		Type X;
+		Type Y;
 	};
 
 	struct MenuPoint
@@ -24,8 +24,8 @@ namespace BT {
 		unsigned short TextSize;
 		unsigned short Padding;
 		unsigned short Positions;
-		BT::Vector2<unsigned int> WindowSize;
-		BT::Vector2<unsigned int> WindowPos;
+		BT::Vector2<int16_t> WindowSize;
+		BT::Vector2<uint32_t> WindowPos;
 		bool IsNumerated;
 	};
 
