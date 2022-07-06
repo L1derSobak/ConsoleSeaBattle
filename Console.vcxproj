@@ -139,18 +139,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseTypes.cpp" />
+    <ClCompile Include="CoreTypes.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CoreFunctions.cpp" />
-    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Screen.cpp" />
     <ClCompile Include="System.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseTypes.h" />
+    <ClInclude Include="CoreTypes.h" />
     <ClInclude Include="CoreFunctions.h" />
-    <ClInclude Include="Graphics.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Screen.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

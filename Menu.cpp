@@ -17,31 +17,31 @@ Menu::Menu()
 	SymbolNums.X = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.X - 1) / 8) - 5));
 	SymbolNums.Y = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Y - 1) / 16) - 3));
 }
-Menu::Menu(std::list<std::string> Params, std::string MenuName, bool isNumirated, unsigned short const TextSize, unsigned short const Padding, unsigned short const Positions, BT::Vector2<int16_t> WindowSize, BT::Vector2<unsigned int> WindowPos)
+Menu::Menu(std::list<std::string> Params, std::string MenuName, bool isNumirated, unsigned short const TextSize, unsigned short const Padding, unsigned short const Positions, CT::Vector2<int16_t> WindowSize, CT::Vector2<unsigned int> WindowPos)
 {
 	CMenuParams.MenuName = MenuName;
 	CMenuParams.Padding = Padding;
 	CMenuParams.TextSize = TextSize;
 	CMenuParams.IsNumerated = isNumirated;
 	CMenuParams.Params = StringToMenuPoint(Params);
-	CMenuParams.WindowPos = WindowPos;
-	CMenuParams.WindowSize = WindowSize;
+	//CMenuParams.WindowPos = WindowPos;
+	//CMenuParams.WindowSize = WindowSize;
 	SymbolNums.X = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.X - 1) / 8) - 5));
 	SymbolNums.Y = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Y - 1) / 16) - 3));
 }
-Menu::Menu(std::list<BT::MenuPoint> Params, std::string MenuName, bool isNumirated, unsigned short const TextSize, unsigned short const Padding, unsigned short const Positions, BT::Vector2<int16_t> WindowSize, BT::Vector2<unsigned int>WindowPos)
+Menu::Menu(std::list<CT::MenuPoint> Params, std::string MenuName, bool isNumirated, unsigned short const TextSize, unsigned short const Padding, unsigned short const Positions, CT::Vector2<int16_t> WindowSize, CT::Vector2<unsigned int>WindowPos)
 {
 	CMenuParams.MenuName = MenuName;
 	CMenuParams.Padding = Padding;
 	CMenuParams.TextSize = TextSize;
 	CMenuParams.IsNumerated = isNumirated;
 	CMenuParams.Params = Params;
-	CMenuParams.WindowPos = WindowPos;
-	CMenuParams.WindowSize = WindowSize;
+	//CMenuParams.WindowPos = WindowPos;
+	//CMenuParams.WindowSize = WindowSize;
 	SymbolNums.X = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Y - 1) / 8) - 5));
 	SymbolNums.X = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Y - 1) / 16) - 3));
 }
-Menu::Menu(BT::MenuParams Params)
+Menu::Menu(CT::MenuParams Params)
 {
 	CMenuParams = Params;
 	SymbolNums.X = static_cast<unsigned int>(floor(((CMenuParams.WindowSize.Y - 1) / 8) - 5));
@@ -49,26 +49,26 @@ Menu::Menu(BT::MenuParams Params)
 }
 Menu::~Menu() { std::cout << "\t\t\t\tDestroyed"; }
 
-std::list<BT::MenuPoint> Menu::StringToMenuPoint(std::list<std::string> Params)
+std::list<CT::MenuPoint> Menu::StringToMenuPoint(std::list<std::string> Params)
 {
-	std::list<BT::MenuPoint> Return;
+	std::list<CT::MenuPoint> Return;
 	unsigned short Pos = 0;
 	for (auto item : Params)
 		Return.push_back({ item, Pos++ });
 	return Return;
 }
 
-std::list<BT::MenuPoint> Menu::GetChoises()
+std::list<CT::MenuPoint> Menu::GetChoises()
 {
 	return CMenuParams.Params;
 }
 
-void Menu::SetValue(std::list<BT::MenuPoint> Params)
+void Menu::SetValue(std::list<CT::MenuPoint> Params)
 {
 	CMenuParams.Params = Params;
 }
 
-void Menu::SetMenuParams(BT::MenuParams MenuParameters)
+void Menu::SetMenuParams(CT::MenuParams MenuParameters)
 {
 	CMenuParams = MenuParameters;
 }

@@ -1,11 +1,11 @@
 ﻿#include <iostream>
 #include <Windows.h>
-#include "System.h"
+#include "Screen.h"
 #include "CoreFunctions.h"
-#include "Graphics.h"
 
 int width = 120;
 int height = 60;
+
 void SetWindow(int Width, int Height)
 {
 	_COORD coord = { Width, Height };
@@ -38,34 +38,29 @@ wchar_t* DrawEdge(wchar_t* buffer)
 	return buffer;
 }
 
-wchar_t* AddString(wchar_t* buffer,const wchar_t* string, uint16_t x, uint16_t y)
-{
-	if (x > width || y > height || buffer == nullptr) return nullptr;
-	
-	uint16_t  sympos = 0;
-	for (size_t i = x; i < x + wcslen(string); i++)
-	{
-		buffer[i + y * width] = string[sympos];
-		sympos++;
-	}
-	buffer[width * height] = '\0';
-	return buffer;
-}
-
 int main()
 {
 	//screen = FullBuffer(screen);
 	//Sleep(500);
 	//screen = DrawEdge(screen);
 	//WriteConsoleOutputCharacter(hConsole, screen, width * height, { 0, 0 }, &dwBytesWritten);
-	System sys;
-	//wchar_t* scrn = new wchar_t[wcslen(sys.GetScreenBuffer())];
-	sys.SetScreenBuffer(CF::DrawTable(sys.GetScreenBuffer(), 10, 10, 32, 32, sys));
-	sys.SetScreenBuffer(CF::DrawTable(sys.GetScreenBuffer(), 0, 0, 60, 60, sys));
+	Screen scrn;
+	scrn.AddString(L"I LOVE YOU!", { 30,20 });
+	//std::cout << scrn.GetSystem().GetOptimalWindowSize().X << " | " << scrn.GetSystem().GetOptimalWindowSize().Y;
 	for (size_t i = 0; i < 10000; i++)
 	{
-		CF::DrawBuffer(sys.GetScreenBuffer(), sys.GetConsoleBufferHandle());
+		uint32_t posx = i<120? i: i%120;
+		scrn.ClearScreen();
+		scrn.AddCharacter('X', {posx, 0});
+		scrn.Draw();
+			//screen.SetScreenBuffer(CF::ClearBuffer(screen.GetScreenBuffer()));
+			//screen.SetScreenBuffer(CF::DrawCircle(screen.GetScreenBuffer(), { 10,10 }, 6, screen.GetSystem()));
+		
+			//CF::DrawBuffer(screen.GetScreenBuffer(), screen.GetSystem().GetConsoleBufferHandle());
+		Sleep(100);
+		//Sleep(100);
 	}
+
 }
 
 

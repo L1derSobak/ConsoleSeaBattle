@@ -10,17 +10,17 @@ void CF::gotoxy(const int& x, const int& y)
 wchar_t* CF::FullBuffer(wchar_t* buffer, wchar_t symbol)
 {
 	uint32_t size = wcslen(buffer);
-	for (uint32_t i = 0; i < size - 3; i++)
+	for (uint32_t i = 0; i < size; i++)
 		buffer[i] = symbol;
-	buffer[size - 3] = '\0';
+	buffer[size] = '\0';
 	return buffer;
 }
 
 wchar_t* CF::ClearBuffer(wchar_t* buffer)
 {
 	uint32_t size = wcslen(buffer);
-	for (uint32_t i = 0; i < size-3; i++)
+	for (uint32_t i = 0; i < size; i++)
 		buffer[i] = ' ';
-	buffer[size-3] = '\0';
+	buffer[size] = '\0';
 	return buffer;
 }
