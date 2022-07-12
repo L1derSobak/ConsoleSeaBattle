@@ -141,16 +141,20 @@
   <ItemGroup>
     <ClCompile Include="CoreTypes.cpp" />
     <ClCompile Include="Console.cpp" />
-    <ClCompile Include="CoreFunctions.cpp" />
+    <ClCompile Include="Field.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Ship.cpp" />
     <ClCompile Include="System.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CoreTypes.h" />
-    <ClInclude Include="CoreFunctions.h" />
+    <ClInclude Include="Field.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Ship.h" />
     <ClInclude Include="System.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

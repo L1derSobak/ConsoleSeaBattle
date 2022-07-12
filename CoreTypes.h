@@ -3,6 +3,7 @@
 #include <list>
 
 namespace CT {
+
 	template<typename Type>
 	class Vector2
 	{
@@ -23,6 +24,28 @@ namespace CT {
 		{
 			return (Vec1.X != Vec2.X || Vec1.Y != Vec2.Y);
 		}
+	};
+
+	enum class Direction
+	{
+		UP,
+		RIGHT,
+		DOWN,
+		LEFT
+	};
+
+	enum class Status
+	{
+		Alive,
+		Wrecked,
+		Destroyed
+	};
+
+	enum class Owner
+	{
+		Player,
+		AI,
+		None
 	};
 
 	struct MenuPoint

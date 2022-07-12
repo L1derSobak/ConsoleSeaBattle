@@ -2,7 +2,6 @@
 #include <list>
 #include <string>
 #include "CoreTypes.h"
-#include "CoreFunctions.h"
 #include "System.h"
 
 class Menu

@@ -1,27 +1,10 @@
 ﻿#include <iostream>
 #include <Windows.h>
 #include "Screen.h"
-#include "CoreFunctions.h"
+#include "Game.h"
+#include "Ship.h"
 
-int width = 120;
-int height = 60;
-
-void SetWindow(int Width, int Height)
-{
-	_COORD coord = { Width, Height };
-	//coord.X = Width;
-	//coord.Y = Height;
-	_SMALL_RECT Rect;
-	Rect.Top = 0;
-	Rect.Left = 0;
-	Rect.Bottom = Height - 1;
-	Rect.Right = Width - 1;
-	HANDLE Handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleScreenBufferSize(Handle, coord);
-	SetConsoleWindowInfo(Handle, TRUE, &Rect);
-}
-
-wchar_t* DrawEdge(wchar_t* buffer)
+/*wchar_t* DrawEdge(wchar_t* buffer)
 {
 	for (int i = 0; i < width; i++)
 	{
@@ -36,28 +19,96 @@ wchar_t* DrawEdge(wchar_t* buffer)
 	}
 	buffer[width * height] = '\0';
 	return buffer;
+}*/
+/*
+	CT::Vector2<SHORT> GetCursorPos()
+{
+	CONSOLE_SCREEN_BUFFER_INFO CursorInfo;
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CursorInfo);
+	return { CursorInfo.dwCursorPosition.X, CursorInfo.dwCursorPosition.Y };
 }
+ */
 
+COORD GetCursorPos()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	COORD coord;
+
+	if (GetConsoleScreenBufferInfo(
+		GetStdHandle(STD_OUTPUT_HANDLE), &csbi))
+	{
+		coord.X = csbi.dwCursorPosition.X;
+		coord.Y = csbi.dwCursorPosition.Y;
+		return coord;
+	}
+	else
+	{
+		coord.X = 0;
+		coord.Y = 0;
+		return coord;
+	}
+}
 int main()
 {
 	//screen = FullBuffer(screen);
 	//Sleep(500);
 	//screen = DrawEdge(screen);
 	//WriteConsoleOutputCharacter(hConsole, screen, width * height, { 0, 0 }, &dwBytesWritten);
-	Screen scrn;
-	scrn.AddString(L"I LOVE YOU!", { 30,20 });
+	//Screen scrn;
+	//Game game;
+	//Ship ship(5, { 20,20 }, CT::Direction::DOWN);
+		//Screen scrn;
+	//for (uint32_t i = 0; i < ship.GetLength(); i++)
+	//	scrn.AddCharacter(ship.GetShipArray()[i], { 20,i + 20 });
+	//wchar_t* testArray = new wchar_t[21];
+	//testArray[20] = '\0';
+	//ZeroMemory(testArray, 20);
+	//for (size_t i = 0; i < 20; i++)
+	//	testArray[i] = '*';
+	//scrn.Add2dArray(testArray, { 4,5 }, { 20,20 });
+	//scrn.AddString(L"I LOVE YOU!", { 30,20 });
 	//std::cout << scrn.GetSystem().GetOptimalWindowSize().X << " | " << scrn.GetSystem().GetOptimalWindowSize().Y;
-	for (size_t i = 0; i < 10000; i++)
+
+	Game game;
+
+	for (size_t i = 0; i < 100000; i++)
 	{
-		uint32_t posx = i<120? i: i%120;
-		scrn.ClearScreen();
-		scrn.AddCharacter('X', {posx, 0});
-		scrn.Draw();
+		game.DrawFields();
+		/*if (GetAsyncKeyState(VK_RETURN))
+		{
+			std::cout << "Enter is Pressed!" << std::endl;
+			std::cout << "\t\t";
+			COORD crd = GetCursorPos();
+			std::cout << crd.X << " | " << crd.Y << std::endl;
+		}Sleep(100);
+		COORD crd = GetCursorPos();
+		std::cout << crd.X << " | " << crd.Y << std::endl;
+		*/
+		//if (ScreenToClient(hwnd, &p)) std::cout << p.x << " | " << p.y << std::endl;
+		//if (GetAsyncKeyState(VK_LBUTTON))
+		//{
+			//CT::Vector2<SHORT> MPos = GetCursorPos();
+			//std::cout << MPos.X << " | " << MPos.Y << std::endl;
+		//	std::cout << "L button Pressd!" << std::endl;
+		//}
+		//Sleep(100);
+		//for (uint32_t i = 0; i < ship.GetLength(); i++)
+		//	scrn.AddCharacter(ship.GetShipArray()[i], { 20,i + 20 });
+		//scrn.Draw();
+		//if (i == 5000)
+		//	ship.Hit({ 20,22 });
+		//if(i == 9000)
+		//	ship.Hit({ 20,22 });
+		
+		//uint32_t posx = i<120? i: i%120;
+		//scrn.ClearScreen();
+		//scrn.AddCharacter('X', {posx, 0});
+		//scrn.Draw();
 			//screen.SetScreenBuffer(CF::ClearBuffer(screen.GetScreenBuffer()));
 			//screen.SetScreenBuffer(CF::DrawCircle(screen.GetScreenBuffer(), { 10,10 }, 6, screen.GetSystem()));
 		
 			//CF::DrawBuffer(screen.GetScreenBuffer(), screen.GetSystem().GetConsoleBufferHandle());
-		Sleep(100);
+		//Sleep(100);
 		//Sleep(100);
 	}
 

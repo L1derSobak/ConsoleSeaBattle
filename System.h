@@ -1,6 +1,5 @@
 #pragma once
 #include "CoreTypes.h"
-#include "CoreFunctions.h"
 #include <Windows.h>
 #include <conio.h>
 

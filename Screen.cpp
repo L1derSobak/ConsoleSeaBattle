@@ -4,7 +4,8 @@ Screen::Screen()
 {
 	ScreenBufferSize = sys.GetWindowSize().X * sys.GetWindowSize().Y + 1;
 	ScreenBuffer = new wchar_t[ScreenBufferSize];
-	ScreenBuffer = CF::ClearBuffer(ScreenBuffer);
+	ClearScreen();
+	//ScreenBuffer = CF::ClearBuffer(ScreenBuffer);
 	ScreenHandle = sys.GetConsoleBufferHandle();
 }
 
@@ -12,7 +13,8 @@ Screen::Screen(CT::Vector2<uint32_t> ScrSize)
 {
 	ScreenBufferSize = ScrSize.X * ScrSize.Y + 1;
 	ScreenBuffer = new wchar_t[ScreenBufferSize];
-	ScreenBuffer = CF::ClearBuffer(ScreenBuffer);
+	ClearScreen();
+	//ScreenBuffer = CF::ClearBuffer(ScreenBuffer);
 	
 }
 
@@ -32,12 +34,12 @@ void Screen::SetScreenBuffer(wchar_t* _ScreenBuffer)
 	ScreenBuffer = _ScreenBuffer;
 }
 
-void Screen::AddString(const wchar_t* string, CT::Vector2<uint16_t>Position)
+void Screen::AddString(const wchar_t* string, CT::Vector2<uint32_t>Position)
 {
-	if (Position.X > sys.GetWindowSize().X || Position.Y > sys.GetWindowSize().Y) throw;
+	if (Position.X > sys.GetWindowSize().X || Position.Y > sys.GetWindowSize().Y) return;
 
 	uint16_t  sympos = 0;
-	for (size_t i = Position.X; i < Position.X + wcslen(string); i++)
+	for (uint32_t i = Position.X; i < Position.X + wcslen(string); i++)
 	{
 		ScreenBuffer[i + Position.Y * sys.GetWindowSize().X] = string[sympos];
 		sympos++;
@@ -47,9 +49,35 @@ void Screen::AddString(const wchar_t* string, CT::Vector2<uint16_t>Position)
 
 void Screen::AddCharacter(const wchar_t character, CT::Vector2<uint32_t> Position)
 {
-	if (Position.X > sys.GetWindowSize().X || Position.Y > sys.GetWindowSize().Y) throw;
+	if (Position.X > sys.GetWindowSize().X || Position.Y > sys.GetWindowSize().Y) return;
 	ScreenBuffer[Position.X + Position.Y * sys.GetWindowSize().X] = character;
 	ScreenBuffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
+}
+
+void Screen::AddArray(const wchar_t* array, CT::Vector2<uint32_t> Position)
+{
+	uint16_t  sympos = 0;
+	for (uint32_t i = Position.X; i < Position.X + wcslen(array); i++)
+	{
+		ScreenBuffer[i + Position.Y * sys.GetWindowSize().X] = array[sympos];
+		sympos++;
+	}
+	ScreenBuffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
+}
+
+void Screen::Add2dArray(const wchar_t* array, CT::Vector2<uint32_t> Size, CT::Vector2<uint32_t> Position)
+{
+	uint32_t x = 0, y = 0;
+	for (uint32_t i = Position.X; i < (Position.X + Size.X); i++)
+	{
+		for (uint32_t j = Position.Y; j < (Position.Y + Size.Y); j++)
+		{
+			ScreenBuffer[i + j * sys.GetWindowSize().X] = array[x + y * Size.X];
+			y++;
+		}
+		x++;
+		y = 0;
+	}
 }
 
 void Screen::Draw()
@@ -62,7 +90,18 @@ void Screen::Draw()
 
 void Screen::ClearScreen()
 {
-	ScreenBuffer = CF::ClearBuffer(ScreenBuffer);
+	uint32_t size = ScreenBufferSize;
+	for (uint32_t i = 0; i < size; i++)
+		ScreenBuffer[i] = ' ';
+	ScreenBuffer[size] = '\0';
+}
+
+void Screen::FillScreen(wchar_t symbol)
+{
+	uint32_t size = ScreenBufferSize;
+	for (uint32_t i = 0; i < size; i++)
+		ScreenBuffer[i] = symbol;
+	ScreenBuffer[size] = '\0';
 }
 
 wchar_t* Screen::DrawTable(wchar_t* buffer, const CT::Vector2<uint16_t>Start, const CT::Vector2<uint16_t>End, System sys)
@@ -82,7 +121,7 @@ wchar_t* Screen::DrawTable(wchar_t* buffer, const CT::Vector2<uint16_t>Start, co
 	return buffer;
 }
 
-wchar_t* Screen::DrawCircle(wchar_t* buffer, const CT::Vector2<uint16_t> CenterCoord, uint16_t Radius, System sys)
+/*wchar_t* Screen::DrawCircle(wchar_t* buffer, const CT::Vector2<uint16_t> CenterCoord, uint16_t Radius, System sys)
 {
 	const float aspect = sys.GetWindowSize().X / sys.GetWindowSize().Y;
 	const float pixelAspect = 11.0f / 24.0f;
@@ -107,7 +146,7 @@ wchar_t* Screen::DrawCircle(wchar_t* buffer, const CT::Vector2<uint16_t> CenterC
 	}
 	buffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
 	return buffer;
-}
+}*/
 
 void Screen::DrawBuffer(wchar_t* buffer, HANDLE ScreenHandle)
 {

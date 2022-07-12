@@ -121,7 +121,7 @@ void Menu::DebugInfo()
 	//680/8=85
 	//480/16=30
 	
-	CF::gotoxy(((CMenuParams.WindowSize.X/8-11)/2)-1, 1);
+	//CF::gotoxy(((CMenuParams.WindowSize.X/8-11)/2)-1, 1);
 	std::cout << "DEBUG MODE" << std::endl;// CF::gotoxy(LastSymPosX, 1); std::cout << "|\n";// << std::endl;
 	std::cout << "\tMenu name: " << CMenuParams.MenuName << std::endl;// CF::gotoxy(LastSymPosX, 2); std::cout << "|\n";// << std::endl;
 	std::cout << "\tText Size: " << CMenuParams.TextSize << std::endl;//  CF::gotoxy(LastSymPosX, 3); std::cout << "|\n";// << std::endl;
@@ -132,7 +132,7 @@ void Menu::DebugInfo()
 	{
 		std::cout << "\t\t" << it.Name << " is " << it.Position << std::endl;// CF::gotoxy(LastSymPosX, p++); std::cout << "|\n";// << std::endl;
 	}
-	CF::gotoxy(((CMenuParams.WindowSize.X / 8 - 23) / 2) - 1, 11);
+	//CF::gotoxy(((CMenuParams.WindowSize.X / 8 - 23) / 2) - 1, 11);
 	std::cout << "Window and Screen Info\n" << std::endl;// CF::gotoxy(LastSymPosX, 10); std::cout << "|";
 	std::cout << "\tWidth: " << sys.GetScreenSize().X << " | " << "Height: " << sys.GetScreenSize().Y << std::endl;// CF::gotoxy(LastSymPosX, 12); std::cout << "|\n";// << std::endl;
 	std::cout << "\tWindow size: \n\tX: " << CMenuParams.WindowSize.X << "\tY: " << CMenuParams.WindowSize.Y << std::endl;// CF::gotoxy(LastSymPosX, 13); std::cout << "|\n";// << std::endl;
