@@ -1,4 +1,4 @@
-#include "Ship.h"
+﻿#include "Ship.h"
 
 Ship::Ship() : Length(1), StartPos({0,0}), direction(CT::Direction::DOWN), status(CT::Status::Alive), ship(new wchar_t[Length+1]), ShipBlocksStatus(new int[Length])
 {

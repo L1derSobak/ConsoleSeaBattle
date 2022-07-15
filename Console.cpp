@@ -48,8 +48,9 @@ COORD GetCursorPos()
 		return coord;
 	}
 }
-int main()
+int wmain(int argc, wchar_t* argv[])
 {
+	//setlocale(LC_ALL, "Rus");
 	//screen = FullBuffer(screen);
 	//Sleep(500);
 	//screen = DrawEdge(screen);
@@ -74,6 +75,7 @@ int main()
 	for (size_t i = 0; i < 100000; i++)
 	{
 		game.DrawFields();
+		std::wcout << game.GetPosFromCell(L"A1").X << " | " << game.GetPosFromCell(L"A1").Y << std::endl;
 		/*if (GetAsyncKeyState(VK_RETURN))
 		{
 			std::cout << "Enter is Pressed!" << std::endl;

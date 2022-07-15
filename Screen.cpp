@@ -84,7 +84,8 @@ void Screen::Draw()
 {
 	DWORD dwBytesWritten = 0;
 	ScreenBuffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
-	WriteConsoleOutputCharacter(ScreenHandle, ScreenBuffer, ScreenBufferSize, { 0,0 }, &dwBytesWritten);
+	WriteConsoleOutputCharacterW(ScreenHandle, ScreenBuffer, ScreenBufferSize, { 0,0 }, &dwBytesWritten);
+	//WriteConsoleOutputCharacterW
 	//WriteConsoleOutputCharacter(hConsole, screen, width * height, { 0, 0 }, &dwBytesWritten);
 }
 

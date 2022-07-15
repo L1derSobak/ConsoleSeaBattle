@@ -4,6 +4,7 @@
 #include <sstream>
 #include <map>
 
+
 System::System()
 {
 	CT::Vector2<uint32_t> WSize = GetOptimalWindowSize();
@@ -24,6 +25,9 @@ System::System()
     
     SetConsoleActiveScreenBuffer(hConsole);
 	*/
+	//..SetConsoleOutputCP(CP_UTF8);
+	//SetConsoleCP(CP_UTF8);
+	setlocale(LC_CTYPE, "RUS");
 }
 
 System::System(CT::Vector2<uint32_t> WinSize)

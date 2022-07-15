@@ -10,6 +10,9 @@ public:
 
 	void InitGameFields();
 	void DrawFields();
+
+	//DEBUG ZONE
+	CT::Vector2<uint32_t> GetPosFromCell(std::wstring Cell);
 protected:
 	Screen scrn;
 private:

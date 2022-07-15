@@ -18,7 +18,12 @@ void Game::InitGameFields()
 
 void Game::DrawFields()
 {
-	scrn.Add2dArray(PlayerField.GetFieldArray(), PlayerField.GetFieldSize(), { 10,1 });
+	scrn.Add2dArray(PlayerField.GetFieldArray(), PlayerField.GetFieldSize(), { 5,1 });
 	scrn.Add2dArray(AIField.GetFieldArray(), AIField.GetFieldSize(), { 70,1 });
 	scrn.Draw();
+}
+
+CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)
+{
+	return PlayerField.GetPosFromCell(Cell);
 }

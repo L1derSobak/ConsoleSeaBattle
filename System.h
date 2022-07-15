@@ -34,7 +34,7 @@ private:
 	uint32_t const MinWinSizeX = 680;
 	uint32_t const MinWinSizeY = 480;
 
-	CT::Vector2<int16_t> DefaultWindowSize = { 120,42 };//GetConsolScreenSize();
+	CT::Vector2<int16_t> DefaultWindowSize = { 120,50 };//GetConsolScreenSize(); 120x42
 	CT::Vector2<uint32_t> DefaultPos{ (ScreenSize.X - MinWinSizeX) / 2 - 1 ,(ScreenSize.Y - MinWinSizeY) / 2 - 1 };
 	CT::Vector2<uint32_t> WindowPosition = DefaultPos;
 	CT::Vector2<int16_t> WindowSize = DefaultWindowSize;
