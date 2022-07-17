@@ -15,6 +15,7 @@ public:
 	void ClearField();
 
 	bool Hit(CT::Vector2<uint32_t> Pos);
+	bool Hit(std::wstring cellName);
 	wchar_t* GetFieldArray() const;
 	CT::Vector2<uint32_t> GetFieldSize() const;
 
@@ -28,13 +29,18 @@ private:
 	void DrawField();
 	void FillField(wchar_t sym);
 
+	void InitCells();
+	CT::CellStatus GetCellStatus(std::wstring CellName) const;
+
 	uint32_t GetArrayFromPos(CT::Vector2<uint32_t> Pos) const;
 	//CT::Vector2<uint32_t> GetPosFromCell(std::wstring cellName) const;
 
 	uint32_t FieldSize = 1, blockSize = 3, ShipsPosition = 0, FieldLength = 0;
 	wchar_t* field = nullptr;
 	std::array<Ship, 10> OwnersShips;
+	std::array<std::pair<std::wstring,CT::CellStatus>, 100> CellStatus;
 	CT::Owner owner;
+
 
 	CT::Vector2<uint32_t> RelativePosition;
 };

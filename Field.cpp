@@ -8,6 +8,7 @@ Field::Field(CT::Owner _owner, CT::Vector2<uint32_t> _RelativePosition) : owner(
 	FieldLength = blockSize * 11 + 11;
 	FieldSize = FieldLength * FieldLength + 1;//(blockSize * 11 + 11) * (blockSize * 11 + 11) + 1;
 	field = new wchar_t[FieldSize];
+	InitCells();
 	ClearField();
 	DrawField();
 	//field[FieldSize] = '\0';
@@ -71,6 +72,12 @@ bool Field::Hit(CT::Vector2<uint32_t> Pos)
 		return true;
 	}
 	return false;
+}
+
+bool Field::Hit(std::wstring cellName) 
+{
+	if (GetCellStatus(cellName) == CT::CellStatus::None || GetCellStatus(cellName) == CT::CellStatus::Hited) return false;
+	return Hit(GetPosFromCell(cellName));
 }
 
 wchar_t* Field::GetFieldArray() const
@@ -158,6 +165,38 @@ void Field::FillField(wchar_t sym)
 	for (uint32_t i = 0; i < FieldSize; i++)
 		field[i] = sym;
 	field[FieldSize] = '\0';
+}
+
+void Field::InitCells()
+{
+	wchar_t sym = 'A';
+	uint32_t pos = 1;
+	std::wstring CellName;
+	for (auto it : CellStatus)
+	{
+		if (pos > 10)
+		{
+			pos = 1;
+			sym++;
+		}
+		CellName = std::to_wstring(sym) + std::to_wstring(pos);
+		it.first = CellName;
+		it.second = CT::CellStatus::Clear;
+		pos++;
+	}
+}
+
+CT::CellStatus Field::GetCellStatus(std::wstring CellName) const
+{
+	for (auto it : CellStatus)
+		if (CellName == it.first) return it.second;
+	return CT::CellStatus::None;
+}
+
+void Field::EditCellStatus(std::wstring cellName)
+{
+	for (auto it : CellStatus)
+		if (cellName == it.first) it.second = CT::CellStatus::Hited;
 }
 
 uint32_t Field::GetArrayFromPos(CT::Vector2<uint32_t> Pos) const

@@ -23,6 +23,11 @@ void Game::DrawFields()
 	scrn.Draw();
 }
 
+bool Game::HitCell(std::wstring CellName)
+{
+	return PlayerField.Hit(GetPosFromCell(CellName));
+}
+
 CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)
 {
 	return PlayerField.GetPosFromCell(Cell);

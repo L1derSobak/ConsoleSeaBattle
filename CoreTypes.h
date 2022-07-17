@@ -26,6 +26,26 @@ namespace CT {
 		}
 	};
 
+	class Cell
+	{
+	public:
+		Cell() : _name(L"0"), _cellStatus(CT::CellStatus::None) {}
+		Cell(std::wstring CellName) : _name(CellName), _cellStatus(CT::CellStatus::Clear) {}
+		~Cell() {}
+
+		void SetCellPosition(CT::Vector2<uint32_t> Position){_cellPosition = Position;}
+		const CT::Vector2<uint32_t> GetCellPosition() { return _cellPosition; }
+
+		void SetCellSize(uint32_t Size) { _cellSize = Size; }
+		const uint32_t GetCellSize() { return _cellSize; }
+
+		std::wstring _name;
+		CT::CellStatus _cellStatus;
+	private:
+		CT::Vector2<uint32_t> _cellPosition;
+		uint32_t _cellSize;
+	};
+
 	enum class Direction
 	{
 		UP,
@@ -47,6 +67,17 @@ namespace CT {
 		AI,
 		None
 	};
+
+	enum class CellStatus
+	{
+		Clear,
+		Hited,
+		None
+	};
+
+
+
+
 
 	struct MenuPoint
 	{
