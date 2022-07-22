@@ -19,8 +19,8 @@ public:
 	wchar_t* GetFieldArray() const;
 	CT::Vector2<uint32_t> GetFieldSize() const;
 
-
-
+	bool SetShip(Ship ship, std::wstring cellName);
+	bool EditShip(Ship ship);
 
 	//DEBUG ZONE
 	CT::Vector2<uint32_t> GetPosFromCell(std::wstring cellName) const;
@@ -34,9 +34,11 @@ private:
 	Ship GetHitedShip(CT::Vector2<uint32_t> Pos) const;
 
 	void DrawField();
+	void DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _direction, wchar_t ShipSymbol = L'=', bool isShort = false, bool invert = false);
 	void FillField(wchar_t sym);
 
 	void InitCells();
+	void InitShips();
 	const CT::CellStatus GetCellStatus(std::wstring CellName);
 	CT::Cell GetCellByName(std::wstring CellName);
 	const bool EditCellStatus(std::wstring cellName);

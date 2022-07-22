@@ -12,6 +12,7 @@ public:
 	void DrawFields();
 
 	bool HitCell(std::wstring CellName);
+	bool SetShip(Ship ship, std::wstring cellName);
 	//DEBUG ZONE
 	CT::Vector2<uint32_t> GetPosFromCell(std::wstring Cell);
 protected:

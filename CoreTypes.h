@@ -31,7 +31,8 @@ namespace CT {
 		UP,
 		RIGHT,
 		DOWN,
-		LEFT
+		LEFT,
+		NONE
 	};
 
 	enum class Status
@@ -55,6 +56,11 @@ namespace CT {
 		None
 	};
 
+	enum class ShipPart
+	{
+		Edge,
+		Body
+	};
 	/*
 	Class Cell
 	*/

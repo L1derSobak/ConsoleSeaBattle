@@ -47,8 +47,15 @@ COORD GetCursorPos()
 		return coord;
 	}
 }
+/*
+int x;
+int* y = &x; // От любой переменной можно взять адрес при помощи операции взятия адреса "&". Эта операция возвращает указатель
+int z = *y; // Указатель можно разыменовать при помощи операции разыменовывания "*". Это операция возвращает тот объект, на который указывает указатель
 
-
+int x;
+int &y = x;
+int z = y;
+*/
 int wmain(int argc, wchar_t* argv[])
 {
 	//setlocale(LC_ALL, "Rus");
@@ -79,9 +86,12 @@ int wmain(int argc, wchar_t* argv[])
 	game.HitCell(L"A1");
 	game.HitCell(L"B1");
 	if(!game.HitCell(L"BB")) game.HitCell(L"f10");
+	game.SetShip({ 2U, CT::Direction::UP }, L"J8"); //Ship(uint32_t _Length, CT::Cell _Cell, CT::Direction _Direction);
+	game.SetShip({ 4U, CT::Direction::RIGHT }, L"C6");
 	for (size_t i = 0; i < 100000; i++)
 	{
 		game.DrawFields();
+		//std::cout << "Hello!";
 		//std::wcout << game.GetPosFromCell(L"A1").X << " | " << game.GetPosFromCell(L"A1").Y << std::endl;
 		/*if (GetAsyncKeyState(VK_RETURN))
 		{

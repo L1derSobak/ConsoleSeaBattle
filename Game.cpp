@@ -32,6 +32,12 @@ bool Game::HitCell(std::wstring CellName)
 	return PlayerField.Hit(CellName);
 }
 
+bool Game::SetShip(Ship ship, std::wstring cellName)
+{
+	PlayerField.SetShip(ship, cellName);
+	return false;
+}
+
 CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)
 {
 	return PlayerField.GetPosFromCell(Cell);

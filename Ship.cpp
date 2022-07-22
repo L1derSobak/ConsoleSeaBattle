@@ -1,19 +1,107 @@
 ﻿#include "Ship.h"
 
-Ship::Ship() : Length(1), StartPos({0,0}), direction(CT::Direction::DOWN), status(CT::Status::Alive), ship(new wchar_t[Length+1]), ShipBlocksStatus(new int[Length])
+Ship::Ship() : Length(1), StartPos({0,0}), direction(CT::Direction::DOWN), status(CT::Status::Alive), ship(new wchar_t[Length+1]), ShipBlocksStatus(new uint32_t[Length])
 {
 	//ship[Length] = '\0';
+	shipPart = new CT::ShipPart[1];
+	shipPart[0] = CT::ShipPart::Edge;
 	SetupShip();
 }
 
-Ship::Ship(uint32_t _Length, CT::Vector2<uint32_t> _StartPos, CT::Direction _Direction) : Length(_Length), StartPos(_StartPos), direction(_Direction), status(CT::Status::Alive), ship(new wchar_t[Length + 1]), ShipBlocksStatus(new int[Length])
+Ship::Ship(uint32_t _Length, CT::Vector2<uint32_t> _StartPos, CT::Direction _Direction) : Length(_Length), StartPos(_StartPos), direction(_Direction), status(CT::Status::Alive), ship(new wchar_t[Length + 1]), ShipBlocksStatus(new uint32_t[Length])
 {
 	//ship[Length] = '\0';
+	shipPart = new CT::ShipPart[Length];
+	switch (Length)
+	{
+	case 1:
+		shipPart[0] = CT::ShipPart::Edge;
+		break;
+	case 2:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Edge;
+		break;
+	case 3:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Body;
+		shipPart[2] = CT::ShipPart::Edge;
+		break;
+	case 4:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Body;
+		shipPart[2] = CT::ShipPart::Body;
+		shipPart[3] = CT::ShipPart::Edge;
+		break;
+	default:
+		break;
+	}
+	
 	SetupShip();
 }
 
-Ship::~Ship()
+Ship::Ship(uint32_t _Length, CT::Cell _Cell, CT::Direction _Direction) : Length(_Length), cell(_Cell), direction(_Direction), status(CT::Status::Alive), ship(new wchar_t[Length + 1]), ShipBlocksStatus(new uint32_t[Length])
 {
+	shipPart = new CT::ShipPart[Length];
+	switch (Length)
+	{
+	case 1:
+		shipPart[0] = CT::ShipPart::Edge;
+		break;
+	case 2:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Edge;
+		break;
+	case 3:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Body;
+		shipPart[2] = CT::ShipPart::Edge;
+		break;
+	case 4:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Body;
+		shipPart[2] = CT::ShipPart::Body;
+		shipPart[3] = CT::ShipPart::Edge;
+		break;
+	default:
+		break;
+	}
+	SetupShip();
+}
+
+Ship::Ship(uint32_t _Length, CT::Direction _Direction) : Length(_Length), direction(_Direction), status(CT::Status::Alive), ship(new wchar_t[Length + 1]), ShipBlocksStatus(new uint32_t[Length])
+{
+	shipPart = new CT::ShipPart[Length];
+	switch (Length)
+	{
+	case 1:
+		shipPart[0] = CT::ShipPart::Edge;
+		break;
+	case 2:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Edge;
+		break;
+	case 3:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Body;
+		shipPart[2] = CT::ShipPart::Edge;
+		break;
+	case 4:
+		shipPart[0] = CT::ShipPart::Edge;
+		shipPart[1] = CT::ShipPart::Body;
+		shipPart[2] = CT::ShipPart::Body;
+		shipPart[3] = CT::ShipPart::Edge;
+		break;
+	default:
+		break;
+	}
+	SetupShip();
+}
+
+Ship::~Ship(){}
+
+void Ship::SetStartCell(CT::Cell _cell)
+{
+	cell = _cell;
 }
 
 bool Ship::IsShipThere(CT::Vector2<uint32_t> Coord) const
@@ -56,8 +144,10 @@ inline void Ship::SetupShip()
 	for (uint32_t i = 0; i < Length; i++)
 	{
 		ShipBlocksStatus[i] = 2;
-		ship[i] = Symbols[ShipBlocksStatus[i]];
-	}ship[Length] = '\0';
+		//ship[i] = Symbols[ShipBlocksStatus[i]];
+		ship[i] = Symbols[2];
+	}
+	ship[Length] = '\0';
 }
 
 uint32_t Ship::CoordToArrPos(CT::Vector2<uint32_t> Pos) const

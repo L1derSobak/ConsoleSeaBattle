@@ -3,12 +3,11 @@
 
 Field::Field(CT::Owner _owner, CT::Vector2<uint32_t> _RelativePosition) : owner(_owner), RelativePosition(_RelativePosition)
 {
-	for (uint32_t i = 0; i < OwnersShips.size(); i++)
-		OwnersShips[i] = Ship(1, { 0,0 }, CT::Direction::RIGHT);
 	FieldLength = CellSize * 11 + 11;
 	FieldSize = FieldLength * FieldLength + 1;//(blockSize * 11 + 11) * (blockSize * 11 + 11) + 1;
 	field = new wchar_t[FieldSize];
 	InitCells();
+	InitShips();
 	ClearField();
 	DrawField();
 	//field[FieldSize] = '\0';
@@ -102,6 +101,47 @@ CT::Vector2<uint32_t> Field::GetFieldSize() const
 	return { FieldLength, FieldLength };
 }
 
+bool Field::SetShip(Ship ship, std::wstring cellName)
+{
+	bool isShort = ship.GetLength() == 1 ? true : false;
+	std::wstring nextCell = cellName;
+	wchar_t Sym = cellName[0];
+	uint32_t Num = cellName.size() == 3 ? 10 : cellName[1]-48;
+	for (uint32_t i = 0; i < ship.GetLength(); i++)
+	{
+		switch (ship.GetDirection())
+		{
+		case CT::Direction::UP:
+			DrawShip(nextCell, ship.GetShipParts()[i], ship.GetDirection(), ship.GetShipArray()[i]/*ship.GetShipPartsStatus()[i]*/, isShort, i==ship.GetLength()-1?true : false);
+			Num--;
+			//DrawShip()
+			break;
+		case CT::Direction::DOWN:
+			DrawShip(nextCell, ship.GetShipParts()[i], ship.GetDirection(), ship.GetShipArray()[i]/*ship.GetShipPartsStatus()[i]*/, isShort, i == ship.GetLength() - 1 ? true : false);
+			Num++;
+			break;
+		case CT::Direction::LEFT:
+			DrawShip(nextCell, ship.GetShipParts()[i], ship.GetDirection(), ship.GetShipArray()[i] /*ship.GetShipPartsStatus()[i]*/, isShort, i == ship.GetLength() - 1 ? true : false);
+			Sym--;
+			break;
+		case CT::Direction::RIGHT:
+			DrawShip(nextCell, ship.GetShipParts()[i], ship.GetDirection(), ship.GetShipArray()[i] /*ship.GetShipPartsStatus()[i]*/, isShort, i == ship.GetLength() - 1 ? true : false);
+			Sym++;
+			break;
+		default:
+			break;
+		}
+		nextCell = Sym + std::to_wstring(Num);
+	}
+	
+	return false;
+}
+
+bool Field::EditShip(Ship ship)
+{
+	return false;
+}
+
 bool Field::IsAnyoneShipHited(CT::Vector2<uint32_t> Pos) const
 {
 	for(uint32_t i = 0; i < OwnersShips.size(); i++)
@@ -172,6 +212,113 @@ void Field::DrawField()
 	}
 }
 
+void Field::DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _direction, wchar_t ShipSymbol, bool isShort, bool invert)
+{
+	CT::Cell tempCell = GetCellByName(_cell);
+	if (isShort)
+	{
+		field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+		return;
+	}
+	/*TODO:
+	1) Через Switch для направления заполнять корабелы*/
+	if (shipPart == CT::ShipPart::Edge)
+	{
+		switch (_direction)
+		{
+		case CT::Direction::UP:
+			if (invert)
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'^';
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y+2) * FieldLength] = ShipSymbol;
+			}
+			else
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'v';
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
+			}
+			break;
+		case CT::Direction::DOWN:
+			if (invert)
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'^';
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
+			}
+			else
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'^';
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 2) * FieldLength] = ShipSymbol;
+			}
+			break;
+		case CT::Direction::LEFT:
+			if (invert)
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'<';
+				field[tempCell.GetWindowPosition().X + 2 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			}
+			else
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'>';
+				field[tempCell.GetWindowPosition().X + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			}
+			break;
+		case CT::Direction::RIGHT:
+			if (invert)
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'>';
+				field[tempCell.GetWindowPosition().X + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			}
+			else
+			{
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'<';
+				field[tempCell.GetWindowPosition().X + 2 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		if (_direction == CT::Direction::DOWN || _direction == CT::Direction::UP)
+		{
+			field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
+			field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 2) * FieldLength] = ShipSymbol;
+		}
+		else
+		{
+			field[tempCell.GetWindowPosition().X  + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+			field[tempCell.GetWindowPosition().X + 2 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
+		}
+	}
+	/*switch (_direction)
+	{
+	case CT::Direction::UP:
+		if (shipPart == CT::ShipPart::Edge)
+		{
+			field[_cell.GetWindowPosition().X + 1 + (_cell.GetWindowPosition().Y + 1) * FieldLength] = L'v';
+			field[_cell.GetWindowPosition().X + 1 + (_cell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
+		}
+		else
+		{
+
+		}
+		break;
+	case CT::Direction::DOWN:
+		break;
+	case CT::Direction::LEFT:
+		break;
+	case CT::Direction::RIGHT:
+		break;
+	default:
+		break;
+	}*/
+}
+
+
+
 void Field::FillField(wchar_t sym)
 {
 	for (uint32_t i = 0; i < FieldSize; i++)
@@ -197,6 +344,17 @@ void Field::InitCells()
 		//it.second = CT::CellStatus::Clear;
 		pos++;
 		arrPos++;
+	}
+}
+
+void Field::InitShips()
+{
+	uint32_t Length = 1;
+	for (uint32_t i = 0; i < OwnersShips.size(); i++)
+	{
+		if (i == 4 || i == 7 || i == 9)
+			Length++;
+		OwnersShips[i] = Ship(Length, CT::Direction::NONE);
 	}
 }
 
