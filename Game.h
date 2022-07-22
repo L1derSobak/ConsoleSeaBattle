@@ -11,12 +11,13 @@ public:
 	void InitGameFields();
 	void DrawFields();
 
+	bool HitCell(std::wstring CellName);
 	//DEBUG ZONE
 	CT::Vector2<uint32_t> GetPosFromCell(std::wstring Cell);
 protected:
 	Screen scrn;
 private:
-	Field PlayerField = Field(CT::Owner::Player, { 10,40 });
-	Field AIField = Field(CT::Owner::AI, { 100,40 });
+	Field PlayerField = Field(CT::Owner::Player, { 10U,40U });
+	Field AIField = Field(CT::Owner::AI, { 100U,40U });
 };
 

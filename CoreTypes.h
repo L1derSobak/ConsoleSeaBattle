@@ -26,26 +26,6 @@ namespace CT {
 		}
 	};
 
-	class Cell
-	{
-	public:
-		Cell() : _name(L"0"), _cellStatus(CT::CellStatus::None) {}
-		Cell(std::wstring CellName) : _name(CellName), _cellStatus(CT::CellStatus::Clear) {}
-		~Cell() {}
-
-		void SetCellPosition(CT::Vector2<uint32_t> Position){_cellPosition = Position;}
-		const CT::Vector2<uint32_t> GetCellPosition() { return _cellPosition; }
-
-		void SetCellSize(uint32_t Size) { _cellSize = Size; }
-		const uint32_t GetCellSize() { return _cellSize; }
-
-		std::wstring _name;
-		CT::CellStatus _cellStatus;
-	private:
-		CT::Vector2<uint32_t> _cellPosition;
-		uint32_t _cellSize;
-	};
-
 	enum class Direction
 	{
 		UP,
@@ -75,8 +55,37 @@ namespace CT {
 		None
 	};
 
+	/*
+	Class Cell
+	*/
+	class Cell
+	{
+	public:
+		Cell() : size(3), arrayPosition(0), windowPosition({ 0,0 }), cellStatus(CellStatus::Clear) {}
+		Cell(uint32_t Size, uint32_t ArrayPosition, CT::Vector2<uint32_t> WindowPosition, std::wstring CellName) : size(Size), arrayPosition(ArrayPosition), windowPosition(WindowPosition), cellStatus(CellStatus::Clear), cellName(CellName){}
 
+		void ResetData(uint32_t Size, uint32_t ArrayPosition, CT::Vector2<uint32_t> WindowPosition, std::wstring CellName)
+		{
+			size = Size;
+			arrayPosition = ArrayPosition;
+			windowPosition = WindowPosition;
+			cellStatus = CellStatus::Clear;
+			cellName = CellName;
+		}
 
+		const uint32_t GetCellSize() { return size; }
+		const uint32_t GetArrayPosition() { return arrayPosition; }
+		const CT::Vector2<uint32_t> GetWindowPosition() { return windowPosition; }
+		const CT::CellStatus GetCellStatus() { return cellStatus; }
+		const std::wstring GetCellName() { return cellName; }
+
+		const bool SetCellStatus(CellStatus _cellStatus);
+	private:
+		std::wstring cellName;
+		uint32_t size, arrayPosition;
+		CT::Vector2<uint32_t> windowPosition;
+		CT::CellStatus cellStatus;
+	};
 
 
 	struct MenuPoint

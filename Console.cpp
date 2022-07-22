@@ -28,7 +28,6 @@
 	return { CursorInfo.dwCursorPosition.X, CursorInfo.dwCursorPosition.Y };
 }
  */
-
 COORD GetCursorPos()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -48,6 +47,8 @@ COORD GetCursorPos()
 		return coord;
 	}
 }
+
+
 int wmain(int argc, wchar_t* argv[])
 {
 	//setlocale(LC_ALL, "Rus");
@@ -71,7 +72,13 @@ int wmain(int argc, wchar_t* argv[])
 	//std::cout << scrn.GetSystem().GetOptimalWindowSize().X << " | " << scrn.GetSystem().GetOptimalWindowSize().Y;
 
 	Game game;
-
+	//if (game.HitCell(L"A3"))//exit(0);// std::cout << "Sucess!";
+	//game.HitCell(L"A1");
+	//game.HitCell(L"C9");
+	game.HitCell(L"j1");
+	game.HitCell(L"A1");
+	game.HitCell(L"B1");
+	if(!game.HitCell(L"BB")) game.HitCell(L"f10");
 	for (size_t i = 0; i < 100000; i++)
 	{
 		game.DrawFields();

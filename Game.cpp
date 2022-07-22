@@ -25,7 +25,11 @@ void Game::DrawFields()
 
 bool Game::HitCell(std::wstring CellName)
 {
-	return PlayerField.Hit(GetPosFromCell(CellName));
+	//return PlayerField.Hit(GetPosFromCell(CellName));
+	//std::wstring _TCellName = std::nouppercase(CellName);
+	CellName[0] = toupper(CellName[0]);
+	if (CellName.size() > 3 || CellName.size()<2) return false;
+	return PlayerField.Hit(CellName);
 }
 
 CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)

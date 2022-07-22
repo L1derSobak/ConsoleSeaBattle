@@ -19,8 +19,15 @@ public:
 	wchar_t* GetFieldArray() const;
 	CT::Vector2<uint32_t> GetFieldSize() const;
 
+
+
+
 	//DEBUG ZONE
 	CT::Vector2<uint32_t> GetPosFromCell(std::wstring cellName) const;
+
+
+
+
 private:
 	bool IsAnyoneShipHited(CT::Vector2<uint32_t> Pos) const;
 	bool IsCellFree(CT::Vector2<uint32_t> Pos) const;
@@ -30,17 +37,19 @@ private:
 	void FillField(wchar_t sym);
 
 	void InitCells();
-	CT::CellStatus GetCellStatus(std::wstring CellName) const;
+	const CT::CellStatus GetCellStatus(std::wstring CellName);
+	CT::Cell GetCellByName(std::wstring CellName);
+	const bool EditCellStatus(std::wstring cellName);
 
 	uint32_t GetArrayFromPos(CT::Vector2<uint32_t> Pos) const;
 	//CT::Vector2<uint32_t> GetPosFromCell(std::wstring cellName) const;
 
-	uint32_t FieldSize = 1, blockSize = 3, ShipsPosition = 0, FieldLength = 0;
+	uint32_t FieldSize = 1, CellSize = 3, ShipsPosition = 0, FieldLength = 0;
 	wchar_t* field = nullptr;
 	std::array<Ship, 10> OwnersShips;
-	std::array<std::pair<std::wstring,CT::CellStatus>, 100> CellStatus;
-	CT::Owner owner;
-
+	std::array<CT::Cell, 100U> Cells;
+	//std::array<std::pair<std::wstring,CT::CellStatus>, 100> CellStatus;
+	CT::Owner owner = CT::Owner::None;
 
 	CT::Vector2<uint32_t> RelativePosition;
 };
