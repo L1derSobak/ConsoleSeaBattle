@@ -220,8 +220,6 @@ void Field::DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _d
 		field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = ShipSymbol;
 		return;
 	}
-	/*TODO:
-	1) Через Switch для направления заполнять корабелы*/
 	if (shipPart == CT::ShipPart::Edge)
 	{
 		switch (_direction)
@@ -241,7 +239,7 @@ void Field::DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _d
 		case CT::Direction::DOWN:
 			if (invert)
 			{
-				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'^';
+				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'v';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
 			}
 			else

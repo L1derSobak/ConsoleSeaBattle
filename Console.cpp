@@ -82,12 +82,12 @@ int wmain(int argc, wchar_t* argv[])
 	//if (game.HitCell(L"A3"))//exit(0);// std::cout << "Sucess!";
 	//game.HitCell(L"A1");
 	//game.HitCell(L"C9");
-	game.HitCell(L"j1");
-	game.HitCell(L"A1");
-	game.HitCell(L"B1");
-	if(!game.HitCell(L"BB")) game.HitCell(L"f10");
-	game.SetShip({ 2U, CT::Direction::UP }, L"J8"); //Ship(uint32_t _Length, CT::Cell _Cell, CT::Direction _Direction);
-	game.SetShip({ 4U, CT::Direction::RIGHT }, L"C6");
+	//game.HitCell(L"j1");
+	//game.HitCell(L"A1");
+	//game.HitCell(L"B1");
+	//if(!game.HitCell(L"BB")) game.HitCell(L"f10");
+	//game.SetShip({ 2U, CT::Direction::UP }, L"J8"); //Ship(uint32_t _Length, CT::Cell _Cell, CT::Direction _Direction);
+	if(!game.SetShip({ 4U, CT::Direction::DOWN }, L"GG1"))game.SetShip({ 2U, CT::Direction::UP }, L"G4");
 	for (size_t i = 0; i < 100000; i++)
 	{
 		game.DrawFields();

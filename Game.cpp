@@ -34,6 +34,28 @@ bool Game::HitCell(std::wstring CellName)
 
 bool Game::SetShip(Ship ship, std::wstring cellName)
 {
+	//Цифры
+	//wchar_t num = 49;//1
+	//Буквы
+	//wchar_t sym = 65; // A (end)
+	wchar_t Sym = cellName[0], Num = cellName.size() == 3 ? 59 : cellName[1];
+	switch (ship.GetDirection())
+	{
+	case CT::Direction::UP:
+		if (Num - ship.GetLength() < L'1'-1)return false;
+		break;
+	case CT::Direction::DOWN:
+		if (Num + ship.GetLength() >59)return false;
+		break;
+	case CT::Direction::LEFT:
+		if (Sym - ship.GetLength() < L'A'-1)return false;
+		break;
+	case CT::Direction::RIGHT:
+		if (Sym + ship.GetLength() > L'J'+1)return false;
+		break;
+	default:
+		break;
+	}
 	PlayerField.SetShip(ship, cellName);
 	return false;
 }

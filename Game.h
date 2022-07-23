@@ -18,6 +18,7 @@ public:
 protected:
 	Screen scrn;
 private:
+	//bool isValidCellName();
 	Field PlayerField = Field(CT::Owner::Player, { 10U,40U });
 	Field AIField = Field(CT::Owner::AI, { 100U,40U });
 };
