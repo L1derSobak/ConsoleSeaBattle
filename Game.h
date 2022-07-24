@@ -19,7 +19,11 @@ protected:
 	Screen scrn;
 private:
 	//bool isValidCellName();
+	const bool isCellExist(std::wstring cellName);
+	const bool EditCellStatus(std::wstring cellName, CT::CellStatus cellStatus);
 	Field PlayerField = Field(CT::Owner::Player, { 10U,40U });
 	Field AIField = Field(CT::Owner::AI, { 100U,40U });
+
+
 };
 

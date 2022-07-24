@@ -87,7 +87,13 @@ int wmain(int argc, wchar_t* argv[])
 	//game.HitCell(L"B1");
 	//if(!game.HitCell(L"BB")) game.HitCell(L"f10");
 	//game.SetShip({ 2U, CT::Direction::UP }, L"J8"); //Ship(uint32_t _Length, CT::Cell _Cell, CT::Direction _Direction);
-	if(!game.SetShip({ 4U, CT::Direction::DOWN }, L"GG1"))game.SetShip({ 2U, CT::Direction::UP }, L"G4");
+	game.SetShip({ 4U,CT::Direction::DOWN }, L"Б2");
+	if(!game.SetShip({ 2U,CT::Direction::RIGHT }, L"Б2"))game.SetShip({ 2U,CT::Direction::DOWN }, L"Д5");
+	//52428
+	
+	
+	//if(!game.SetShip({2U, CT::Direction::RIGHT},L"A2"))game.SetShip({ 2U,CT::Direction::RIGHT }, L"A3");
+	//if(!game.SetShip({ 4U, CT::Direction::DOWN }, L"GG1"))game.SetShip({ 2U, CT::Direction::UP }, L"G4");
 	for (size_t i = 0; i < 100000; i++)
 	{
 		game.DrawFields();

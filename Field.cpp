@@ -101,7 +101,7 @@ CT::Vector2<uint32_t> Field::GetFieldSize() const
 	return { FieldLength, FieldLength };
 }
 
-bool Field::SetShip(Ship ship, std::wstring cellName)
+bool Field::SetShip(Ship &ship, std::wstring cellName)
 {
 	bool isShort = ship.GetLength() == 1 ? true : false;
 	std::wstring nextCell = cellName;
@@ -134,7 +134,7 @@ bool Field::SetShip(Ship ship, std::wstring cellName)
 		nextCell = Sym + std::to_wstring(Num);
 	}
 	
-	return false;
+	return true;
 }
 
 bool Field::EditShip(Ship ship)
@@ -151,7 +151,7 @@ bool Field::IsAnyoneShipHited(CT::Vector2<uint32_t> Pos) const
 
 bool Field::IsCellFree(CT::Vector2<uint32_t> Pos) const
 {
-	if (field[GetArrayFromPos(Pos)] == ' ') return true;
+	if (field[GetArrayFromPos(Pos)] == L' ') return true;
 	return false;
 }
 
@@ -164,7 +164,7 @@ Ship Field::GetHitedShip(CT::Vector2<uint32_t> Pos) const
 void Field::ClearField()
 {
 	for (uint32_t i = 0; i < FieldSize; i++)
-		field[i] = ' ';
+		field[i] = L' ';
 	field[FieldSize] = '\0';
 }
 
@@ -174,7 +174,7 @@ void Field::DrawField()
 	{
 		for (uint32_t j = 0; j < FieldLength; j++)
 		{
-			if ((i + 1) % (CellSize + 1) == 0 || (j + 1) % (CellSize + 1) == 0) field[i + j * FieldLength] = '.';
+			if ((i + 1) % (CellSize + 1) == 0 || (j + 1) % (CellSize + 1) == 0) field[i + j * FieldLength] = L'.';
 			else field[i + j * FieldLength] = ' ';
 		}
 	}
@@ -186,7 +186,7 @@ void Field::DrawField()
 
 	for (uint32_t i = 0; i < FieldLength; i++)
 		for (uint32_t j = 0; j < CellSize; j++)
-			field[i + j * FieldLength] = ' ';
+			field[i + j * FieldLength] = L' ';
 
 	//Размещаем символы
 
@@ -196,14 +196,14 @@ void Field::DrawField()
 	{
 		if (num == 58)
 		{
-			field[0 + i * FieldLength] = '1';
-			field[1 + i * FieldLength] = '0';
+			field[0 + i * FieldLength] = L'1';
+			field[1 + i * FieldLength] = L'0';
 		}
 		else field[1 + i * FieldLength] = num;
 		num++;
 	}
 	//Буквы
-	wchar_t sym = 65; // A (end)
+	wchar_t sym = 1040; // A (end)
 	for (uint32_t i = CellSize + ceilf(CellSize / 2) + 1; i < FieldLength; i += CellSize + 1)
 	{
 		field[i + 1 * FieldLength] = sym;
@@ -239,11 +239,13 @@ void Field::DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _d
 		case CT::Direction::DOWN:
 			if (invert)
 			{
+				this->field[0] = L'1';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'v';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
 			}
 			else
 			{
+				this->field[0] = L'1';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'^';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 2) * FieldLength] = ShipSymbol;
 			}
@@ -326,7 +328,7 @@ void Field::FillField(wchar_t sym)
 
 void Field::InitCells()
 {
-	wchar_t sym = L'A'; //65
+	wchar_t sym = 1040; 
 	uint32_t pos = 1, arrPos = 0;
 	std::wstring CellName;
 	for (auto& it : Cells)
@@ -392,11 +394,18 @@ CT::Vector2<uint32_t> Field::GetPosFromCell(std::wstring cellName) const
 	//Сначала определяем столбец по букве
 	uint32_t pos = CellSize + ceilf(CellSize / 2), add = CellSize + 1;//second = cellName.c_str()[1] - 49;
 	CT::Vector2<uint32_t> Position;
-	Position.X = pos + add * (cellName.c_str()[0]-65);
+	Position.X = pos + add * (cellName.c_str()[0]-1040);
 	if (cellName.size() == 3)
 		Position.Y = pos + add * 9;//(cellName.c_str()[1] - 49);
 	else
 		Position.Y = pos + add * (cellName.c_str()[1] - 49);
 	//Position.Y = pos + add * (cellName.c_str()[1] - 49);
 	return Position;
+}
+
+const bool Field::EditCellStatus(std::wstring cellName, CT::CellStatus cellStatus)
+{
+	for (auto& it : Cells)
+		if (it.GetCellName() == cellName) return(it.SetCellStatus(cellStatus));
+	return false;
 }

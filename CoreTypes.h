@@ -52,6 +52,7 @@ namespace CT {
 	enum class CellStatus
 	{
 		Clear,
+		NearShip,
 		Hited,
 		None
 	};
