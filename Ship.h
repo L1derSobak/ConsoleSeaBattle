@@ -18,7 +18,7 @@ public:
 
 	bool IsShipThere(CT::Vector2<uint32_t> Coord) const;
 	CT::Vector2<uint32_t> GetStartPos() const { return StartPos; }
-	uint32_t GetLength() const { return Length; }
+	int32_t GetLength() const { return Length; }
 	CT::Direction GetDirection() const { return direction; }
 	CT::Status GetStatus() { return status; }
 	CT::Cell GetStartCell() {return cell; }
@@ -33,7 +33,7 @@ private:
 	inline void SetupShip();
 	uint32_t CoordToArrPos(CT::Vector2<uint32_t> Pos) const;
 
-	uint32_t Length;
+	int32_t Length;
 	CT::Cell cell;
 	CT::Vector2<uint32_t> StartPos;
 	CT::Direction direction;

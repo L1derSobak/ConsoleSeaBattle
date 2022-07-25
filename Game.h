@@ -18,7 +18,10 @@ public:
 protected:
 	Screen scrn;
 private:
+	void WriteavaliableShips(uint32_t _AvaliableShips);
+
 	//bool isValidCellName();
+	uint32_t AvalibleShips;
 	const bool isCellExist(std::wstring cellName);
 	const bool EditCellStatus(std::wstring cellName, CT::CellStatus cellStatus);
 	Field PlayerField = Field(CT::Owner::Player, { 10U,40U });

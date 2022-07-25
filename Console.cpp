@@ -87,8 +87,19 @@ int wmain(int argc, wchar_t* argv[])
 	//game.HitCell(L"B1");
 	//if(!game.HitCell(L"BB")) game.HitCell(L"f10");
 	//game.SetShip({ 2U, CT::Direction::UP }, L"J8"); //Ship(uint32_t _Length, CT::Cell _Cell, CT::Direction _Direction);
+	
 	game.SetShip({ 4U,CT::Direction::DOWN }, L"Б2");
+	game.SetShip({ 3U,CT::Direction::UP }, L"Й8");
 	if(!game.SetShip({ 2U,CT::Direction::RIGHT }, L"Б2"))game.SetShip({ 2U,CT::Direction::DOWN }, L"Д5");
+
+	game.SetShip({ 3U,CT::Direction::RIGHT }, L"Ж1");
+	game.SetShip({ 2U,CT::Direction::UP }, L"Б9");
+	game.SetShip({ 2U,CT::Direction::RIGHT }, L"Г10");
+	game.SetShip({ 1U,CT::Direction::UP }, L"Г3");
+	game.SetShip({ 1U,CT::Direction::UP }, L"Д1");
+	game.SetShip({ 1U,CT::Direction::UP }, L"Е8");
+	game.SetShip({ 1U,CT::Direction::UP }, L"Й2");
+
 	//52428
 	
 	

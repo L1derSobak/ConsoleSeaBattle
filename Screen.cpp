@@ -47,6 +47,18 @@ void Screen::AddString(const wchar_t* string, CT::Vector2<uint32_t>Position)
 	ScreenBuffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
 }
 
+void Screen::AddString(const std::wstring string, CT::Vector2<uint32_t> Position)
+{
+	if (Position.X > sys.GetWindowSize().X || Position.Y > sys.GetWindowSize().Y) return;
+	uint32_t i = Position.X;
+	for (auto it : string)
+	{
+		ScreenBuffer[i + Position.Y * sys.GetWindowSize().X] = it;
+		i++;
+	}
+	ScreenBuffer[sys.GetWindowSize().X * sys.GetWindowSize().Y] = '\0';
+}
+
 void Screen::AddCharacter(const wchar_t character, CT::Vector2<uint32_t> Position)
 {
 	if (Position.X > sys.GetWindowSize().X || Position.Y > sys.GetWindowSize().Y) return;

@@ -3,6 +3,7 @@
 Game::Game()
 {
 	InitGameFields();
+	AvalibleShips = PlayerField.GetAvaliableShips();
 	DrawFields();
 	//wchar_t Sym = 1040;//187;//328;
 	//wchar_t str[] = L"Всем привет!";
@@ -33,12 +34,14 @@ bool Game::HitCell(std::wstring CellName)
 	//return PlayerField.Hit(GetPosFromCell(CellName));
 	//std::wstring _TCellName = std::nouppercase(CellName);
 	CellName[0] = toupper(CellName[0]);
-	if (CellName.size() > 3 || CellName.size()<2) return false;
+	if (!isCellExist(CellName)) return false;
+	//if (CellName.size() > 3 || CellName.size()<2) return false;
 	return PlayerField.Hit(CellName);
 }
 
 bool Game::SetShip(Ship ship, std::wstring cellName)
 {
+	if (!isCellExist(cellName) || AvalibleShips==0) return false;
 	bool IsCanSetShip = true;
 	wchar_t Sym = cellName[0];
 	wchar_t tSym = Sym;
@@ -78,7 +81,7 @@ bool Game::SetShip(Ship ship, std::wstring cellName)
 	default:
 		break;
 	}
-	if (!IsCanSetShip) return false;
+	if (!IsCanSetShip || !PlayerField.AttachShip(ship)) return false;
 	//Размечаем для корабля клетки-запреты 
 	Sym = cellName[0];// -1;
 	tSym = Sym;
@@ -180,13 +183,22 @@ bool Game::SetShip(Ship ship, std::wstring cellName)
 	default:
 		break;
 	}
-	return PlayerField.SetShip(ship, cellName);
+	bool doneCode = PlayerField.SetShip(ship, cellName);
+	AvalibleShips = PlayerField.GetAvaliableShips();
+	WriteavaliableShips(AvalibleShips);
+	return doneCode;
 	//return false;
 }
 
 CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)
 {
 	return PlayerField.GetPosFromCell(Cell);
+}
+
+void Game::WriteavaliableShips(uint32_t _AvaliableShips)
+{
+	std::wstring shps = L"Можно установить кораблей: " + std::to_wstring(_AvaliableShips) + L"  ";
+	scrn.AddString(shps, { 0,0 });
 }
 
 const bool Game::isCellExist(std::wstring cellName)

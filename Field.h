@@ -10,7 +10,7 @@ public:
 	Field(CT::Owner _owner, CT::Vector2<uint32_t> _RelativePosition);
 	~Field();
 
-	void AttachShip(Ship ship);
+	bool AttachShip(Ship ship);
 	void ResetShips();
 	void ClearField();
 
@@ -27,11 +27,12 @@ public:
 	const bool EditCellStatus(std::wstring cellName, CT::CellStatus cellStatus);
 	const CT::CellStatus GetCellStatus(std::wstring cellName);
 
-
+	uint32_t GetAvaliableShips() { return AvaliableShips; }
 private:
 	bool IsAnyoneShipHited(CT::Vector2<uint32_t> Pos) const;
 	bool IsCellFree(CT::Vector2<uint32_t> Pos) const;
 	Ship GetHitedShip(CT::Vector2<uint32_t> Pos) const;
+
 
 	void DrawField();
 	void DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _direction, wchar_t ShipSymbol = L'=', bool isShort = false, bool invert = false);
@@ -46,10 +47,11 @@ private:
 	uint32_t GetArrayFromPos(CT::Vector2<uint32_t> Pos) const;
 	//CT::Vector2<uint32_t> GetPosFromCell(std::wstring cellName) const;
 
-	uint32_t FieldSize = 1, CellSize = 3, ShipsPosition = 0, FieldLength = 0;
+	uint32_t FieldSize = 1, CellSize = 3, ShipsPosition = 0, FieldLength = 0, AvaliableShips = 10;
 	wchar_t* field = nullptr;
 	std::array<Ship, 10> OwnersShips;
 	std::array<CT::Cell, 100U> Cells;
+	std::array<std::pair<uint32_t, uint32_t>,4> ShipsLength;
 	//std::array<std::pair<std::wstring,CT::CellStatus>, 100> CellStatus;
 	CT::Owner owner = CT::Owner::None;
 

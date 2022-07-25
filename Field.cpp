@@ -1,11 +1,19 @@
 #include "Field.h"
 //#include <Windows.h>
 
-Field::Field(CT::Owner _owner, CT::Vector2<uint32_t> _RelativePosition) : owner(_owner), RelativePosition(_RelativePosition)
+Field::Field(CT::Owner _owner, CT::Vector2<uint32_t> _RelativePosition) : owner(_owner), RelativePosition(_RelativePosition), AvaliableShips(10)
 {
 	FieldLength = CellSize * 11 + 11;
 	FieldSize = FieldLength * FieldLength + 1;//(blockSize * 11 + 11) * (blockSize * 11 + 11) + 1;
 	field = new wchar_t[FieldSize];
+	int Length = 1, Count = 4;
+	for (auto& it : ShipsLength)
+	{
+		it.first = Length;
+		it.second = Count;
+		Length++;
+		Count--;
+	}
 	InitCells();
 	InitShips();
 	ClearField();
@@ -50,10 +58,21 @@ Field::~Field()
 
 }
 
-void Field::AttachShip(Ship ship)
+bool Field::AttachShip(Ship ship)
 {
+	for (auto& it : ShipsLength)
+	{
+		if (ship.GetLength() == it.first)
+		{ if (it.second == 0) return false;
+			else
+			{
+			it.second--;
+			}
+		}
+	}
 	OwnersShips[ShipsPosition] = ship;
 	ShipsPosition++;
+	return true;
 }
 
 void Field::ResetShips()
@@ -103,6 +122,8 @@ CT::Vector2<uint32_t> Field::GetFieldSize() const
 
 bool Field::SetShip(Ship &ship, std::wstring cellName)
 {
+	AvaliableShips--;
+
 	bool isShort = ship.GetLength() == 1 ? true : false;
 	std::wstring nextCell = cellName;
 	wchar_t Sym = cellName[0];
@@ -239,13 +260,11 @@ void Field::DrawShip(std::wstring _cell, CT::ShipPart shipPart, CT::Direction _d
 		case CT::Direction::DOWN:
 			if (invert)
 			{
-				this->field[0] = L'1';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'v';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y) * FieldLength] = ShipSymbol;
 			}
 			else
 			{
-				this->field[0] = L'1';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 1) * FieldLength] = L'^';
 				field[tempCell.GetWindowPosition().X + 1 + (tempCell.GetWindowPosition().Y + 2) * FieldLength] = ShipSymbol;
 			}

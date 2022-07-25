@@ -17,6 +17,7 @@ public:
 
 	void SetScreenBuffer(wchar_t* _ScreenBuffer);
 	void AddString(const wchar_t* string, CT::Vector2<uint32_t>Position);
+	void AddString(const std::wstring string, CT::Vector2<uint32_t>Position);
 	void AddCharacter(const wchar_t character, CT::Vector2<uint32_t> Position);
 	void AddArray(const wchar_t* array, CT::Vector2<uint32_t>Position);
 	void Add2dArray(const wchar_t* array, CT::Vector2<uint32_t> Size, CT::Vector2<uint32_t>Position);
