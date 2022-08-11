@@ -15,18 +15,21 @@ public:
 
 	void SetStartCell(CT::Cell _cell);
 
+	CT::ShipPart GetShipPartByCell(std::wstring cellName);
+	uint32_t GetBlockPosByCell(std::wstring cellName);
 
 	bool IsShipThere(CT::Vector2<uint32_t> Coord) const;
 	CT::Vector2<uint32_t> GetStartPos() const { return StartPos; }
 	int32_t GetLength() const { return Length; }
 	CT::Direction GetDirection() const { return direction; }
 	CT::Status GetStatus() { return status; }
-	CT::Cell GetStartCell() {return cell; }
+	CT::Cell& GetStartCell() {return cell; }
 	CT::ShipPart* GetShipParts() { return shipPart; }
 	uint32_t* GetShipPartsStatus() { return ShipBlocksStatus; }
 	wchar_t* GetShipArray() const { return ship; }
-
+	const wchar_t GetSymByStatus(uint32_t Status) { return Symbols[Status]; }
 	bool Hit(CT::Vector2<uint32_t> Pos);
+	bool Hit(std::wstring cellName);
 protected:
 
 private:
@@ -39,7 +42,7 @@ private:
 	CT::Direction direction;
 	CT::Status status;
 	
-	wchar_t Symbols[3] = { 'X','-','=' }; //1 - Alive, 2 - Wraped, 3 - Destroyed
+	wchar_t Symbols[3] = { L'X',L'-',L'=' }; //1 - Alive, 2 - Wraped, 3 - Destroyed
 	wchar_t* ship = nullptr;
 	uint32_t* ShipBlocksStatus = nullptr;
 	CT::ShipPart* shipPart = nullptr;

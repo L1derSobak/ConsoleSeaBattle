@@ -104,6 +104,109 @@ void Ship::SetStartCell(CT::Cell _cell)
 	cell = _cell;
 }
 
+CT::ShipPart Ship::GetShipPartByCell(std::wstring cellName)
+{
+	for (auto i = 0U;i< Length;i++)
+	{
+		
+		wchar_t Sym = cell.GetCellName()[0];
+		wchar_t tSym = Sym;
+		int32_t Pos = cell.GetCellName().size() == 3 ? 10 : cell.GetCellName()[1] - 48;
+		int32_t tPos = Pos;
+		switch (direction)
+		{
+		case CT::Direction::DOWN:
+			for (; Pos < tPos + Length; Pos++)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return shipPart[i];
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::UP:
+			for (; Pos > tPos - Length; Pos--)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return shipPart[i];
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::LEFT:
+			for (; Sym > tSym - Length; Sym--)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return shipPart[i];
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::RIGHT:
+			for (; Sym < tSym + Length; Sym++)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return shipPart[i];
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		default:
+			break;
+		}
+		//it.GetStartCell()
+	}
+	return CT::ShipPart::None;
+	//return CT::ShipPart();
+}
+
+uint32_t Ship::GetBlockPosByCell(std::wstring cellName)
+{
+	for (auto i = 0U; i < Length; i++)
+	{
+
+		wchar_t Sym = cell.GetCellName()[0];
+		wchar_t tSym = Sym;
+		int32_t Pos = cell.GetCellName().size() == 3 ? 10 : cell.GetCellName()[1] - 48;
+		int32_t tPos = Pos;
+		switch (direction)
+		{
+		case CT::Direction::DOWN:
+			for (; Pos < tPos + Length; Pos++)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return i;
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::UP:
+			for (; Pos > tPos - Length; Pos--)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return i;
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::LEFT:
+			for (; Sym > tSym - Length; Sym--)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return i;
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::RIGHT:
+			for (; Sym < tSym + Length; Sym++)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName) return i;
+				//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		default:
+			break;
+		}
+		//it.GetStartCell()
+	}
+	return 404;
+}
+
 bool Ship::IsShipThere(CT::Vector2<uint32_t> Coord) const
 {
 	if (StartPos == Coord) return true;
@@ -135,6 +238,16 @@ bool Ship::Hit(CT::Vector2<uint32_t> Pos)
 	ship[CoordToArrPos(Pos)] = Symbols[ShipBlocksStatus[CoordToArrPos(Pos)]];
 	return true;
 	//
+}
+
+bool Ship::Hit(std::wstring cellName)
+{
+	uint32_t i = GetShipPartsStatus()[GetBlockPosByCell(cellName)];
+	if (i - 1 < 0) return false;
+	ship[GetBlockPosByCell(cellName)] = Symbols[i - 1];
+	//GetShipPartsStatus()[GetBlockPosByCell(cellName)]
+	//this->ShipBlocksStatus[GetBlockPosByCell(cellName)]
+	return true;
 }
 
 inline void Ship::SetupShip()

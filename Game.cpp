@@ -5,6 +5,11 @@ Game::Game()
 	InitGameFields();
 	AvalibleShips = PlayerField.GetAvaliableShips();
 	DrawFields();
+	Input = new wchar_t[4];
+	//memset(Input, L' ', sizeof(Input));
+	for (auto i = 0U; i < 4U; i++)
+		Input[i] = L' ';
+	Input[3] = L'\0';
 	//wchar_t Sym = 1040;//187;//328;
 	//wchar_t str[] = L"Всем привет!";
 	//scrn.AddString(str, { 0,0 });
@@ -33,7 +38,7 @@ bool Game::HitCell(std::wstring CellName)
 {
 	//return PlayerField.Hit(GetPosFromCell(CellName));
 	//std::wstring _TCellName = std::nouppercase(CellName);
-	CellName[0] = toupper(CellName[0]);
+	//CellName[0] = static_cast<wchar_t>(toupper(CellName[0]));
 	if (!isCellExist(CellName)) return false;
 	//if (CellName.size() > 3 || CellName.size()<2) return false;
 	return PlayerField.Hit(CellName);
@@ -190,6 +195,67 @@ bool Game::SetShip(Ship ship, std::wstring cellName)
 	//return false;
 }
 
+const std::wstring Game::GetInput()
+{
+	std::wstring CellName = L" ";
+	//memset(Input, L'0', 4);
+	//Input[3] = L'\0';
+	bool isEnd = false, enable = true;
+	while (1)
+	{
+		CT::RusKeyCode get = inputManager.GetLastInputR();
+		if (get == CT::RusKeyCode::Enter || get == CT::RusKeyCode::Esc) break;
+		for (auto it : CT::AvaliableInput)
+		{
+			if (get == it)
+			{
+				if (inputManager.GetSymByInput(get) == L'\b')
+				{
+					/*
+					if (pos == 2)
+					{
+						Input[pos] = ' ';
+						pos--;
+					}
+					else
+					{
+						Input[pos] = ' ';
+						pos = (pos - 1) < 0 ? 0 : pos - 1;
+					}
+					*/
+					isEnd = (pos == 2) && enable ? true : false;
+					if (isEnd)
+					{
+						Input[pos] = L' ';
+						enable = false;
+					}
+					else 
+					{
+						pos = (pos - 1) < 0 ? 0 : pos - 1;
+						Input[pos] = L' ';
+						enable = true;
+					}
+					//if(pos==2)Input[pos] = ' ';
+					//pos = (pos - 1) < 0 ? 0 : pos - 1;
+					//Input[pos] = ' ';
+				}
+				else
+				{
+					Input[pos] = inputManager.GetSymByInput(get);
+					pos = pos + 1 > 2 ? 2 : pos + 1;
+				}
+				Input[3] = L'\0';
+				WriteInput(Input);
+			}
+		}
+	}
+	CellName = Input;
+	std::size_t found = CellName.find(L' ');
+	if(found != std::string::npos)
+		CellName.erase(found);
+	return CellName;
+}
+
 CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)
 {
 	return PlayerField.GetPosFromCell(Cell);
@@ -199,6 +265,17 @@ void Game::WriteavaliableShips(uint32_t _AvaliableShips)
 {
 	std::wstring shps = L"Можно установить кораблей: " + std::to_wstring(_AvaliableShips) + L"  ";
 	scrn.AddString(shps, { 0,0 });
+}
+
+void Game::WriteInput(wchar_t* input)
+{
+	std::wstring Literal = L"Введите название клетки: ";// +std::to_wstring(input);
+	std::wstring voidInput = L"    ";
+	scrn.AddString(Literal, { 0,1 });
+	scrn.AddString(voidInput, { 24,1 });
+	scrn.AddArray(input, { 24,1 });
+	scrn.Draw();
+	Sleep(100);
 }
 
 const bool Game::isCellExist(std::wstring cellName)

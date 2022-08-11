@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿
+#include <iostream>
 #include <Windows.h>
 #include "Screen.h"
 #include "Game.h"
@@ -101,13 +102,35 @@ int wmain(int argc, wchar_t* argv[])
 	game.SetShip({ 1U,CT::Direction::UP }, L"Й2");
 
 	//52428
-	
+	game.HitCell(L"А1");
+	//game.HitCell(L"Ж1");
+	//if (!game.HitCell(L"д1"))game.HitCell(L"Д1");
 	
 	//if(!game.SetShip({2U, CT::Direction::RIGHT},L"A2"))game.SetShip({ 2U,CT::Direction::RIGHT }, L"A3");
 	//if(!game.SetShip({ 4U, CT::Direction::DOWN }, L"GG1"))game.SetShip({ 2U, CT::Direction::UP }, L"G4");
-	for (size_t i = 0; i < 100000; i++)
+
+	/*
+	TODO:
+	1)Получить значение от пользователя
+	2)Реализовать цикл с условием:
+	while(true)
 	{
-		game.DrawFields();
+		if(input)
+		{
+			game.EditInfo(...);
+			game.Draw();
+		}
+	}
+	*/
+	//ReadConsoleInputW
+	game.DrawFields();
+	while(true)//for (size_t i = 0; i < 100000; i++)
+	{
+		if (game.GetInput() == L"A2") exit(0);
+	
+
+		
+		//scanf("%3s", input);
 		//std::cout << "Hello!";
 		//std::wcout << game.GetPosFromCell(L"A1").X << " | " << game.GetPosFromCell(L"A1").Y << std::endl;
 		/*if (GetAsyncKeyState(VK_RETURN))
@@ -148,6 +171,7 @@ int wmain(int argc, wchar_t* argv[])
 		//Sleep(100);
 	}
 
+	return 0;
 }
 
 
