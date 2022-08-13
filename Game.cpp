@@ -32,6 +32,8 @@ void Game::DrawFields()
 	scrn.Add2dArray(PlayerField.GetFieldArray(), PlayerField.GetFieldSize(), { 5,1 });
 	scrn.Add2dArray(AIField.GetFieldArray(), AIField.GetFieldSize(), { 70,1 });
 	scrn.Draw();
+	wchar_t arr[] = { L"    " };
+	WriteInput(arr);
 }
 
 bool Game::HitCell(std::wstring CellName)
