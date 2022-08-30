@@ -102,8 +102,8 @@ int wmain(int argc, wchar_t* argv[])
 	game.SetShip({ 1U,CT::Direction::UP }, L"Й2");
 
 	//52428
-	game.HitCell(L"А1");
-	//game.HitCell(L"Ж1");
+	//game.HitCell(L"А1");
+	game.HitCell(L"Ж1");
 	//if (!game.HitCell(L"д1"))game.HitCell(L"Д1");
 	
 	//if(!game.SetShip({2U, CT::Direction::RIGHT},L"A2"))game.SetShip({ 2U,CT::Direction::RIGHT }, L"A3");

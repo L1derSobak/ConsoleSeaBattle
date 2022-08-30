@@ -94,8 +94,8 @@ bool Field::Hit(CT::Vector2<uint32_t> Pos)
 
 bool Field::Hit(std::wstring cellName) 
 {
-	if (GetCellStatus(cellName) == CT::CellStatus::None || GetCellStatus(cellName) == CT::CellStatus::Hited) return false;
-	if (!EditCellStatus(cellName)) return false;
+	if ((GetCellStatus(cellName) == CT::CellStatus::None || GetCellStatus(cellName) == CT::CellStatus::Hited) || !EditCellStatus(cellName)) return false;
+	//if ()) return false;
 
 	//TODO:
 	//1)–еализовать метод Hit дл€ корабл€ т.е мы сначала находим какой корабль был подстрелен,
@@ -104,7 +104,7 @@ bool Field::Hit(std::wstring cellName)
 			Field
 			  |
 			  v
-		WhatShipHited(cellName); ¬от ту твопрос как к ораблю обратитьс€. ћожно вернуть его позицию в массиве OwnersShips
+		WhatShipHited(cellName); ¬от ту твопрос как к кораблю обратитьс€. ћожно вернуть его позицию в массиве OwnersShips
 			  |
 			  v
 		Ship.Hit(cellName)
@@ -665,55 +665,55 @@ uint32_t Field::GetArrayFromPos(CT::Vector2<uint32_t> Pos) const
 
 const uint32_t Field::ArrShipPosByCell(std::wstring cellName)
 {
-	for (size_t i = 0U; i < 10;i++)//for (auto& it : OwnersShips)
+	for (size_t i = 0U; i < 10U;i++)//for (auto& it : OwnersShips)
 	{
 		//<++++++++++++++++++++++++++++++++++++++++++++++++++>
 		wchar_t Sym = OwnersShips[i].GetStartCell().GetCellName()[0];
 		wchar_t tSym = Sym;
 		int32_t Pos = OwnersShips[i].GetStartCell().GetCellName().size() == 3 ? 10 : OwnersShips[i].GetStartCell().GetCellName()[1] - 48;
 		int32_t tPos = Pos;
-		for (auto i = 0; i < OwnersShips[i].GetLength(); i++)
+		//for (auto j = 0U; j < OwnersShips[i].GetLength(); j++)
+		//{
+		switch (OwnersShips[i].GetDirection())
 		{
-			switch (OwnersShips[i].GetDirection())
+		case CT::Direction::UP:
+			for (; Pos > tPos - OwnersShips[i].GetLength(); Pos--)
 			{
-			case CT::Direction::UP:
-				for (; Pos > tPos - OwnersShips[i].GetLength(); Pos--)
-				{
-					std::wstring name = Sym + std::to_wstring(Pos);
-					if (name == cellName)
-						return i;
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName)
+					return i;
 					//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
-				}
-				break;
-			case CT::Direction::DOWN:
-				for (; Pos < tPos + OwnersShips[i].GetLength(); Pos++)
-				{
-					std::wstring name = Sym + std::to_wstring(Pos);
-					if (name == cellName)
-						return i;
-				}
-				break;
-			case CT::Direction::LEFT:
-				for (; Sym > tSym - OwnersShips[i].GetLength(); Sym--)
-				{
-					std::wstring name = Sym + std::to_wstring(Pos);
-					if (name == cellName)
-						return i;
-					//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
-				}
-				break;
-			case CT::Direction::RIGHT:
-				for (; Sym < tSym + OwnersShips[i].GetLength(); Sym++)
-				{
-					std::wstring name = Sym + std::to_wstring(Pos);
-					if (name == cellName)
-						return i;//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
-				}
-				break;
-			default:
-				break;
 			}
+			break;
+		case CT::Direction::DOWN:
+			for (; Pos < tPos + OwnersShips[i].GetLength(); Pos++)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName)
+					return i;
+			}
+			break;
+		case CT::Direction::LEFT:
+			for (; Sym > tSym - OwnersShips[i].GetLength(); Sym--)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName)
+					return i;
+					//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		case CT::Direction::RIGHT:
+			for (; Sym < tSym + OwnersShips[i].GetLength(); Sym++)
+			{
+				std::wstring name = Sym + std::to_wstring(Pos);
+				if (name == cellName)
+					return i;//if (!(isCellExist(name) && PlayerField.GetCellStatus(name) == CT::CellStatus::Clear)) IsCanSetShip = false;
+			}
+			break;
+		default:
+			break;
 		}
+		//}
 	}
 	return 404;
 }

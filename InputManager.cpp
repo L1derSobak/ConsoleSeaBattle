@@ -184,6 +184,18 @@ const wchar_t InputManager::GetSymByInput(const CT::RusKeyCode rkc)
     case CT::RusKeyCode::_9:
         return L'9';
         break;
+    case CT::RusKeyCode::UpArrow:
+        return L'^';
+        break;
+    case CT::RusKeyCode::DownArrow:
+        return L'v';
+        break;
+    case CT::RusKeyCode::LeftArrow:
+        return L'<';
+        break;
+    case CT::RusKeyCode::RightArrow:
+        return L'>';
+        break;
     case CT::RusKeyCode::BackSpace:
         //std::cout << "\b ";
         return L'\b';

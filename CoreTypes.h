@@ -204,7 +204,11 @@ namespace CT {
 		RusKeyCode::_9,
 		RusKeyCode::Esc,
 		RusKeyCode::Enter,
-		RusKeyCode::BackSpace
+		RusKeyCode::BackSpace,
+		RusKeyCode::DownArrow,
+		RusKeyCode::UpArrow,
+		RusKeyCode::LeftArrow,
+		RusKeyCode::RightArrow
 	};
 
 	enum class Direction
