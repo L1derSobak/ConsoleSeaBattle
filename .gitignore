@@ -21,10 +21,6 @@ Release/
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -35,3 +31,34 @@ Release/
 *.exe
 *.out
 *.app
+
+#Visual Studio files
+.sln
+.vcxproj
+.filters
+.user
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+cmake-build-debug
+.idea
+_deps
+/cmake-build-release/
+/Resources/Cache/
+/Resources/Scripts/Libraries/Standard/
+/Resources/Scripts/Libraries/
+/Resources/Cache

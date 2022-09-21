@@ -126,8 +126,15 @@ int wmain(int argc, wchar_t* argv[])
 	game.DrawFields();
 	while(true)//for (size_t i = 0; i < 100000; i++)
 	{
-		if (game.GetInput() == L"A2") exit(0);
-	
+		//if (game.GetInput() == L"A2") exit(0);
+		if (game.HitCell(game.GetInput()))
+		{
+			game.AddString(L"                          ", { 30,0 });
+			game.DrawFields();
+		}
+		else
+			game.AddString(L"Сюда нельзя выстрелить!", { 30,0 });//game.
+		
 
 		
 		//scanf("%3s", input);

@@ -263,6 +263,11 @@ CT::Vector2<uint32_t> Game::GetPosFromCell(std::wstring Cell)
 	return PlayerField.GetPosFromCell(Cell);
 }
 
+void Game::AddString(const std::wstring string, CT::Vector2<uint32_t> position)
+{
+	scrn.AddString(string, position);
+}
+
 void Game::WriteavaliableShips(uint32_t _AvaliableShips)
 {
 	std::wstring shps = L"Можно установить кораблей: " + std::to_wstring(_AvaliableShips) + L"  ";

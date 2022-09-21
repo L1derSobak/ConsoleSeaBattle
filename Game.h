@@ -18,6 +18,7 @@ public:
 	const std::wstring GetInput();
 	//DEBUG ZONE
 	CT::Vector2<uint32_t> GetPosFromCell(std::wstring Cell);
+	void AddString(const std::wstring string, CT::Vector2<uint32_t> position);
 protected:
 	Screen scrn;
 private:
